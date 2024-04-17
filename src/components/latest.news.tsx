@@ -8,7 +8,7 @@ export default async function LatestNews() {
   const blogs = await getAllBlogs()
 
   return (
-    <section className="py-10">
+    <section className="">
       <div className="max-w-5xl mx-auto px-4">
         <h2 className="text-2xl font-bold text-[#333333] text-start mb-4">
           Últimas Notícias
