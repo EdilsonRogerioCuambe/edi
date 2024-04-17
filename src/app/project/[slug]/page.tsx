@@ -6,7 +6,7 @@ import Markdown from '@/components/markdown'
 export default async function Page({ params }: { params: { slug: string } }) {
   const project = await getProjectBySlug(params.slug)
   return (
-    <main className="pt-20">
+    <main className="">
       <div className="max-w-5xl mx-auto px-4">
         <div className="mt-8">
           <div className="w-full relative h-[300px] md:h-[500px]">

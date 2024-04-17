@@ -37,12 +37,14 @@ export default function Hero() {
         </motion.div>
         <div className="w-full md:w-2/3">
           <RoughNotationGroup show={true}>
-            <p className="text-2xl md:text-4xl items-center">
+            <h1 className="text-3xl md:text-5xl font-bold">
               Olá, sou um{' '}
-              <RoughNotation type="underline" color="#ff6347">
+              <RoughNotation type="underline" color="#ff6347" show={true}>
                 desenvolvedor full stack
-              </RoughNotation>{' '}
-              especializado em
+              </RoughNotation>
+            </h1>
+            <p className="text-2xl md:text-4xl items-center">
+              Especializado em
               <RoughNotation type="circle" color="#34d399">
                 {' '}
                 Docker

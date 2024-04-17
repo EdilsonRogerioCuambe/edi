@@ -74,7 +74,7 @@ export default function Blogs({ blogs }: BlogsProps) {
               {new Date(blogs.publishedAt).toLocaleDateString()}
             </p>
             <Link
-              href={`/blog/${blogs.id}`}
+              href={`/blog/${blogs.slug}`}
               className="hover:underline transition-all duration-300 ease-in-out"
             >
               <h3 className="text-xl font-bold mb-2">{blogs.title}</h3>

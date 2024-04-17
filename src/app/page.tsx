@@ -4,7 +4,7 @@ import LatestNews from '@/components/latest.news'
 
 export default function Page() {
   return (
-    <main className="pt-20">
+    <main className="">
       <Hero />
       <LatestNews />
       <ContactForm />
