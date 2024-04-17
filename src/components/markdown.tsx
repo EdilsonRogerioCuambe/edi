@@ -26,7 +26,7 @@ export default function Markdown({ content }: MarkdownProps) {
             const match = /language-(\w+)/.exec(className || '')
 
             return !inline && match ? (
-              <div className="relative bg-[#333333]">
+              <div className="relative">
                 <CopyToClipboard
                   text={String(children).replace(/\n$/, '')}
                   onCopy={() => {
@@ -42,7 +42,7 @@ export default function Markdown({ content }: MarkdownProps) {
                   <button
                     type="button"
                     title="Copiar"
-                    className="absolute top-2 right-2 bg-[#333333] rounded-lg p-2"
+                    className="absolute top-0 right-0 bg-[#121214] items-center rounded-lg p-2"
                     aria-label="Copy"
                   >
                     {copied ? (
