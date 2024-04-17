@@ -6,7 +6,7 @@ import rehypeRaw from 'rehype-raw'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { toast } from 'react-hot-toast'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { arta } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
+import { agate } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 import { Copy, CheckCheck } from 'lucide-react'
 
 interface MarkdownProps {
@@ -16,7 +16,7 @@ interface MarkdownProps {
 export default function Markdown({ content }: MarkdownProps) {
   const [copied, setCopied] = useState(false)
   return (
-    <article className="prose prose-pre:p-0 prose-ol:text-[#333333] prose-ul:text-[#333333] prose-headings:text-[#333333] max-w-none prose-p:text-[#333333]">
+    <article className="prose prose-pre:p-2 prose-pre:bg-[#333333] prose-ol:text-[#333333] prose-ul:text-[#333333] prose-headings:text-[#333333] max-w-none prose-p:text-[#333333]">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw]}
@@ -26,7 +26,7 @@ export default function Markdown({ content }: MarkdownProps) {
             const match = /language-(\w+)/.exec(className || '')
 
             return !inline && match ? (
-              <div className="relative">
+              <div className="relative bg-[#333333]">
                 <CopyToClipboard
                   text={String(children).replace(/\n$/, '')}
                   onCopy={() => {
@@ -53,8 +53,9 @@ export default function Markdown({ content }: MarkdownProps) {
                   </button>
                 </CopyToClipboard>
                 <SyntaxHighlighter
-                  style={arta}
                   PreTag="div"
+                  style={agate}
+                  showLineNumbers
                   language={match[1]}
                   {...props}
                 >
