@@ -6,8 +6,6 @@ import Link from 'next/link'
 export default async function Page() {
   const projects = await getAllProjects()
 
-  console.log(projects.projects)
-
   return (
     <main className="pt-20 max-w-5xl mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">

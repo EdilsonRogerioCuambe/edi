@@ -1,10 +1,11 @@
 'use client'
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { toast } from 'react-hot-toast'
 
 import { Button } from '@/components/ui/button'
+
 import {
   Form,
   FormControl,
@@ -16,6 +17,8 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+
+import { sendEmail } from '@/lib/actions'
 
 const formSchema = z.object({
   name: z.string().min(3, {
@@ -42,7 +45,30 @@ export default function ContactForm() {
   const { isValid, isSubmitting, isLoading } = form.formState
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values)
+    const formData = new FormData()
+    formData.append('name', values.name)
+    formData.append('email', values.email)
+    formData.append('message', values.message)
+
+    const initialState = {
+      error: null,
+      success: false,
+    }
+
+    sendEmail(initialState, formData)
+      .then((state) => {
+        if (state?.success) {
+          toast.success('Mensagem enviada com sucesso')
+          form.reset()
+        } else {
+          toast.error('Erro ao enviar mensagem')
+          console.error(state?.error)
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+        toast.error('Erro ao enviar mensagem')
+      })
   }
 
   return (
