@@ -20,7 +20,7 @@ export default function Hero() {
         exit="exit"
         variants={variants}
         transition={{ type: 'linear', duration: 0.5 }}
-        className="flex flex-col md:flex-row max-w-5xl mx-auto p-4 md:py-10 md:space-x-4 space-y-4 md:space-y-0 items-center justify-center w-full"
+        className="flex flex-col md:flex-row max-w-5xl mx-auto p-4 md:py-10 md:space-x-4 space-y-2 md:space-y-0 items-center justify-center w-full"
       >
         <motion.div
           className="flex-shrink-0 hidden cursor-pointer md:flex-shrink rounded-lg border-2 border-[#f5f5f5] relative justify-center items-center md:flex h-full w-full md:w-1/3 overflow-hidden"

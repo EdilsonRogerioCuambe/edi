@@ -21,7 +21,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
           <h1 className="md:text-3xl text-xl my-3 font-bold text-[#333333]">
             {project.project.name}
           </h1>
-          <Markdown content={project.project.description} />
+          <Markdown content={project.project.content} />
         </div>
       </div>
     </main>
