@@ -44,7 +44,7 @@ export default function ContactForm() {
 
   const { isValid, isSubmitting, isLoading } = form.formState
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const formData = new FormData()
     formData.append('name', values.name)
     formData.append('email', values.email)
@@ -55,7 +55,7 @@ export default function ContactForm() {
       success: false,
     }
 
-    sendEmail(initialState, formData)
+    await sendEmail(initialState, formData)
       .then((state) => {
         if (state?.success) {
           toast.success('Mensagem enviada com sucesso')
