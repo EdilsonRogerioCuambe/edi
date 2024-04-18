@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Source_Code_Pro as SourceCode } from 'next/font/google'
+import { Suspense } from 'react'
 import { Toaster } from 'react-hot-toast'
 import './globals.css'
 import Navbar from '@/components/navbar'
@@ -44,14 +45,16 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="pt">
-      <body className={`${code.className} bg-[##F5F5F5] text-[#333333]`}>
-        <GoogleAnalytics GOOGLE_MEASUREMENT_ID={GOOGLE_ANALYTICS} />
-        <Navbar />
-        <Toaster position="top-center" />
-        {children}
-        <Footer />
-      </body>
-    </html>
+    <Suspense>
+      <html lang="pt">
+        <body className={`${code.className} bg-[##F5F5F5] text-[#333333]`}>
+          <GoogleAnalytics GOOGLE_MEASUREMENT_ID={GOOGLE_ANALYTICS} />
+          <Navbar />
+          <Toaster position="top-center" />
+          {children}
+          <Footer />
+        </body>
+      </html>
+    </Suspense>
   )
 }
