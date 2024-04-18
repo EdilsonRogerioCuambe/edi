@@ -75,16 +75,15 @@ async function fetchAllBlogs() {
           }
         }
         updatedAt
-        publishedAt
-        id
         imageUrl {
           url
         }
         slug
         title
-        content
-        description
         tags
+        publishedAt
+        description
+        content
         category
       }
     }
@@ -105,7 +104,6 @@ async function fetchAllProjects() {
   const query = gql`
     query Projects {
       projects(first: 500) {
-        id
         name
         description
         content
@@ -132,16 +130,16 @@ async function fetchAuthorByEmail(email: string) {
   }
 
   const query = gql`
-    query Author($email: String!) {
-      author(filter: { email: $email }) {
-        id
-        name
-        avatar {
-          url
-        }
-        description
+  query AuthorByEmail {
+    author(where: { email: "${email}" }) {
+      id
+      name
+      avatar {
+        url
       }
+      description
     }
+  }
   `
   const author = await request<{ author: AuthorData }>(DATABASE_URL, query, {
     email,
