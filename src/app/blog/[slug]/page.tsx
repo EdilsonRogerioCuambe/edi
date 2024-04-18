@@ -103,7 +103,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
                 </div>
               </div>
               <ShareLink
-                url={`https://edilsoncuambe.tech/blog/${blog.blog.slug}`}
+                url={`https://wwww.edilson.site/blog/${blog.blog.slug}`}
                 title={blog.blog.title}
                 description={blog.blog.description}
               />
