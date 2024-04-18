@@ -8,12 +8,6 @@ if (!DATABASE_URL) {
   )
 }
 
-type Category = {
-  id: string
-  name: string
-  slug: string
-}
-
 type AuthorData = {
   id: string
   name: string
@@ -37,7 +31,7 @@ type BlogData = {
     url: string
   }
   tags: string[]
-  category: Category
+  category: string
   author: AuthorData
   updatedAt: string
   publishedAt: string
@@ -76,13 +70,7 @@ export const getAllBlogs = async (): Promise<Blogs> => {
         publishedAt
         description
         content
-        category {
-          ... on Category {
-            id
-            name
-            slug
-          }
-        }
+        category
       }
     }
   `
@@ -104,10 +92,7 @@ export const getAllBlogsByCategory = async (
         slug
         imageUrl
         tags
-        category {
-          id
-          name
-        }
+        category
         author {
           ... on Author {
             id
@@ -137,13 +122,7 @@ export const getBlogBySlug = async (
           slug: "${slug}"
         }
       ) {
-        category {
-          ... on Category {
-            id
-            name
-            slug
-          }
-        }
+        category
         content
         publishedAt
         slug

@@ -3,12 +3,6 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-type Category = {
-  id: string
-  name: string
-  slug: string
-}
-
 type AuthorData = {
   id: string
   name: string
@@ -28,7 +22,7 @@ type BlogData = {
     url: string
   }
   tags: string[]
-  category: Category
+  category: string
   author: AuthorData
   updatedAt: string
   publishedAt: string
@@ -54,45 +48,51 @@ export default function Blogs({ blogs }: BlogsProps) {
 
   return (
     <div>
-      {currentPosts.map((blogs) => (
-        <div
-          key={blogs.id}
-          className="flex flex-col md:flex-row items-center md:space-x-4 my-4"
-        >
-          <div className="md:w-1/3 w-full">
-            <Image
-              src={blogs.imageUrl.url}
-              alt={blogs.title}
-              width={400}
-              height={300}
-              className="rounded-lg w-full object-cover"
-            />
-          </div>
-          <div className="md:w-2/3 w-full mt-4 md:mt-0">
-            <p className="text-sm text-[#333333]">
-              {blogs.category.name} •{' '}
-              {new Date(blogs.publishedAt).toLocaleDateString()}
-            </p>
-            <Link
-              href={`/blog/${blogs.slug}`}
-              className="hover:underline transition-all duration-300 ease-in-out"
-            >
-              <h3 className="text-xl font-bold mb-2">{blogs.title}</h3>
-            </Link>
-            <p className="mb-4">{blogs.description}</p>
-            <div className="flex flex-wrap items-center gap-2">
-              {blogs.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-sm text-[#333333] border-2 px-2 py-1 rounded-lg border-[#333333]"
-                >
-                  {tag}
-                </span>
-              ))}
+      {currentPosts
+        .sort(
+          (a, b) =>
+            new Date(b.publishedAt).getTime() -
+            new Date(a.publishedAt).getTime(),
+        )
+        .map((blogs) => (
+          <div
+            key={blogs.id}
+            className="flex flex-col md:flex-row items-center md:space-x-4 my-4"
+          >
+            <div className="md:w-1/3 w-full">
+              <Image
+                src={blogs.imageUrl.url}
+                alt={blogs.title}
+                width={400}
+                height={300}
+                className="rounded-lg w-full object-cover"
+              />
+            </div>
+            <div className="md:w-2/3 w-full mt-4 md:mt-0">
+              <p className="text-sm text-[#333333]">
+                {blogs.category} •{' '}
+                {new Date(blogs.publishedAt).toLocaleDateString()}
+              </p>
+              <Link
+                href={`/blog/${blogs.slug}`}
+                className="hover:underline transition-all duration-300 ease-in-out"
+              >
+                <h3 className="text-xl font-bold mb-2">{blogs.title}</h3>
+              </Link>
+              <p className="mb-4">{blogs.description}</p>
+              <div className="flex flex-wrap items-center gap-2">
+                {blogs.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-sm text-[#333333] border-2 px-2 py-1 rounded-lg border-[#333333]"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
       <div className="flex justify-center mt-8">
         <ul className="flex gap-2">
           {Array.from({

@@ -7,13 +7,18 @@ import { getAllBlogs } from '@/db/db'
 export default async function LatestNews() {
   const blogs = await getAllBlogs()
 
+  const sortedBlogs = blogs.blogs.sort(
+    (a, b) =>
+      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+  )
+
   return (
     <section className="">
       <div className="max-w-5xl mx-auto px-4">
         <h2 className="text-2xl font-bold text-[#333333] text-start mb-4">
           Últimas Notícias
         </h2>
-        {blogs.blogs.map((news) => (
+        {sortedBlogs.slice(0, 4).map((news) => (
           <div
             key={news.id}
             className="flex flex-col md:flex-row items-center md:space-x-4 my-4"
@@ -29,7 +34,7 @@ export default async function LatestNews() {
             </div>
             <div className="md:w-2/3 w-full mt-4 md:mt-0">
               <p className="text-sm text-[#333333]">
-                {news.category.name} •{' '}
+                {news.category} •{' '}
                 {new Date(news.publishedAt).toLocaleDateString()}
               </p>
               <Link
