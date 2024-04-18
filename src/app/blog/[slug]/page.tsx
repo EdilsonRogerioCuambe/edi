@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { getBlogBySlug } from '@/db/db'
 import Markdown from '@/components/markdown'
 import { Metadata, ResolvingMetadata } from 'next'
+import ShareLink from '@/components/share.link'
 
 export const dynamicParams = false
 
@@ -73,6 +74,40 @@ export default async function Page({ params }: { params: { slug: string } }) {
             <h1 className="md:text-3xl text-2xl my-3 font-bold text-[#333333]">
               {blog.blog.title}
             </h1>
+            {/** imagem, nome do autor, data de publicação e botão de compartilhar */}
+            <div className="flex items-center justify-between my-4">
+              <div className="flex items-center space-x-4">
+                <div className="relative w-10 h-10 overflow-hidden rounded-full bg-gray-200">
+                  {blog.blog.author.avatar && (
+                    <Image
+                      src={blog.blog.author.avatar.url}
+                      alt={blog.blog.author.name}
+                      width={40}
+                      height={40}
+                      className="rounded-full"
+                    />
+                  )}
+                </div>
+                <div className="text-[#333333]">
+                  <p className="text-md">{blog.blog.author.name}</p>
+                  <p className="text-sm">
+                    {new Date(blog.blog.publishedAt).toLocaleDateString(
+                      'pt-BR',
+                      {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                      },
+                    )}
+                  </p>
+                </div>
+              </div>
+              <ShareLink
+                url={`https://edilsoncuambe.tech/blog/${blog.blog.slug}`}
+                title={blog.blog.title}
+                description={blog.blog.description}
+              />
+            </div>
             <Markdown content={blog.blog.content} />
           </div>
         </div>
