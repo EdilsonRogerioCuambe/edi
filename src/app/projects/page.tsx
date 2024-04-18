@@ -21,9 +21,9 @@ export const metadata: Metadata = {
     description: 'Junte-se a mim na jornada para dominar as habilidades de TI.',
   },
   verification: {
-    google: '-BOO4u6icrUaS5mTJ7ovWgjnLmQ1GyrJKzmB7g_1TAk',
     other: {
       'msvalidate.01': '47154EC18AD3A9B201850033086355EA',
+      'google-site-verification': '-BOO4u6icrUaS5mTJ7ovWgjnLmQ1GyrJKzmB7g_1TAk',
     },
   },
 }
