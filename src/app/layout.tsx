@@ -5,6 +5,7 @@ import './globals.css'
 import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
 import GoogleAnalytics from '@/components/google.analytics'
+import CookieBanner from '@/components/cookie.banner'
 
 const code = SourceCode({ subsets: ['latin'] })
 
@@ -51,6 +52,7 @@ export default function RootLayout({
         <Toaster position="top-center" />
         {children}
         <Footer />
+        <CookieBanner />
       </body>
     </html>
   )

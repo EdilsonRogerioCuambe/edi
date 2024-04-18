@@ -44,7 +44,7 @@ export default function CookieBanner() {
           type="button"
           onClick={() => setIsCookieAccepted(false)}
           title="Negar cookies"
-          className="px-5 py-2 text-[#c4c4cc] rounded-md border-purple-500 border-2"
+          className="px-5 py-2 text-[#f5f5f5] rounded-md border-2"
         >
           Negar
         </button>
@@ -52,7 +52,7 @@ export default function CookieBanner() {
           type="button"
           onClick={() => setIsCookieAccepted(true)}
           title="Aceitar cookies"
-          className="px-5 py-2 text-[#c4c4cc] rounded-md border-purple-500 bg-[#121214] border-2"
+          className="px-5 py-2 text-[#f5f5f5] rounded-md border-2"
         >
           Aceitar cookies 🍪
         </button>
