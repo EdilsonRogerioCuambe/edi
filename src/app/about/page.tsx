@@ -1,50 +1,29 @@
 import Markdown from '@/components/markdown'
 import { getAuthorByEmail } from '@/db/db'
-import { Metadata, ResolvingMetadata } from 'next'
+import type { Metadata } from 'next'
 
-export const dynamicParams = false
-
-export async function generateMetadata(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _parent: ResolvingMetadata,
-): Promise<Metadata> {
-  const author = await getAuthorByEmail()
-
-  if (!author) {
-    return {}
-  }
-
-  return {
-    metadataBase: new URL('https://edilsoncuambe.tech'),
-    title: {
-      template: '%s | Tecnologia em Foco com Edilson Cuambe',
-      default: author.author.name,
+export const metadata: Metadata = {
+  title: {
+    template: '%s | Codando & Inovando',
+    default: 'Edilson | Codando & Inovando',
+  },
+  description: 'Junte-se a mim na jornada para dominar as habilidades de TI.',
+  creator: 'Edilson Rogério Cuambe',
+  robots: { index: false, follow: false },
+  openGraph: {
+    type: 'website',
+    locale: 'pt_BR',
+    url: 'https://edilson.site',
+    siteName: 'Edilson | Codando & Inovando',
+    title: 'Edilson | Codando & Inovando',
+    description: 'Junte-se a mim na jornada para dominar as habilidades de TI.',
+  },
+  verification: {
+    google: '-BOO4u6icrUaS5mTJ7ovWgjnLmQ1GyrJKzmB7g_1TAk',
+    other: {
+      'msvalidate.01': '47154EC18AD3A9B201850033086355EA',
     },
-    description: author.author.description,
-    creator: author.author.name,
-    publisher: author.author.name,
-    openGraph: {
-      type: 'website',
-      locale: 'pt_BR',
-      url: `https://edilsoncuambe.site/about`,
-      images: author.author.avatar.url,
-      siteName: 'Edilson | Codando & Inovando',
-      title: author.author.name,
-      description: author.author.description,
-    },
-    robots: {
-      index: false,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: false,
-        noimageindex: true,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-      },
-    },
-  }
+  },
 }
 
 export default async function Page() {
