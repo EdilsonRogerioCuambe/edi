@@ -17,7 +17,7 @@ export default function GoogleAnalytics({
     const url = pathname + searchParams.toString()
 
     pageView(GOOGLE_MEASUREMENT_ID, url)
-  }, [GOOGLE_MEASUREMENT_ID, pathname, searchParams])
+  }, [pathname, searchParams, GOOGLE_MEASUREMENT_ID])
 
   return (
     <>

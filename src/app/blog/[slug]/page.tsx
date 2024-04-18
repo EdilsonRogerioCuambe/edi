@@ -1,31 +1,61 @@
 import Image from 'next/image'
 import { getBlogBySlug } from '@/db/db'
 import Markdown from '@/components/markdown'
-import { NextSeo } from 'next-seo'
+import { Metadata, ResolvingMetadata } from 'next'
 
 export const dynamicParams = false
+
+export async function generateMetadata(
+  params: { params: { slug: string } },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const blog = await getBlogBySlug(params.params.slug)
+
+  if (!blog) {
+    return {}
+  }
+
+  return {
+    metadataBase: new URL('https://edilsoncuambe.tech'),
+    title: {
+      template: '%s | Tecnologia em Foco com Edilson Cuambe',
+      default: blog.blog.title,
+    },
+    description: blog.blog.description,
+    creator: blog.blog.author.name,
+    publisher: blog.blog.author.name,
+    category: blog.blog.category,
+    keywords: blog.blog.tags,
+    openGraph: {
+      type: 'website',
+      locale: 'pt_BR',
+      url: `https://edilsoncuambe.site/blog/${blog.blog.slug}`,
+      images: blog.blog.imageUrl.url,
+      siteName: 'Edilson | Codando & Inovando',
+      title: blog.blog.title,
+      description: blog.blog.description,
+    },
+    robots: {
+      index: false,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: false,
+        noimageindex: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+  }
+}
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const blog = await getBlogBySlug(params.slug)
 
   return (
     <>
-      <NextSeo
-        title={blog.blog.title}
-        description={blog.blog.description}
-        openGraph={{
-          title: blog.blog.title,
-          description: blog.blog.description,
-          images: [
-            {
-              url: blog.blog.imageUrl.url,
-              width: 1200,
-              height: 600,
-              alt: blog.blog.title,
-            },
-          ],
-        }}
-      />
       <main className="pt-20">
         <div className="mx-auto max-w-5xl px-4">
           <div className="mt-8">
