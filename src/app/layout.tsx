@@ -45,8 +45,8 @@ export default function RootLayout({
 
   return (
     <html lang="pt">
+      <GoogleAnalytics GOOGLE_MEASUREMENT_ID={GOOGLE_ANALYTICS} />
       <body className={`${code.className} bg-[##F5F5F5] text-[#333333]`}>
-        <GoogleAnalytics GOOGLE_MEASUREMENT_ID={GOOGLE_ANALYTICS} />
         <Navbar />
         <Toaster position="top-center" />
         {children}
