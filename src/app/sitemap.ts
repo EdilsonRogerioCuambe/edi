@@ -26,6 +26,23 @@ type BlogData = {
   publishedAt: string
 }
 
+type ProjectData = {
+  id: string
+  name: string
+  description: string
+  content: string
+  link?: string
+  slug: string
+  imageUrl: {
+    url: string
+  }
+  langs: string[]
+}
+
+type Projects = {
+  projects: ProjectData[]
+}
+
 type Blogs = {
   blogs: BlogData[]
 }
@@ -76,17 +93,104 @@ async function fetchAllBlogs() {
   return blogs
 }
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const blogs = await fetchAllBlogs()
+async function fetchAllProjects() {
+  const DATABASE_URL = process.env.NEXT_PUBLIC_GRAPHQL_URL
 
-  if (!blogs.blogs) {
-    return []
+  if (!DATABASE_URL) {
+    throw new Error(
+      'Please define the DATABASE_URL environment variable inside .env.local',
+    )
   }
 
-  return blogs.blogs.slice(0, 50000).map((blog) => ({
-    url: `https://edilson.site/blog/${blog.slug}`,
-    lastmod: blog.updatedAt,
-    changefreq: 'daily',
-    priority: 0.7,
+  const query = gql`
+    query Projects {
+      projects(first: 500) {
+        id
+        name
+        description
+        content
+        link
+        slug
+        imageUrl {
+          url
+        }
+        langs
+      }
+    }
+  `
+  const projects = await request<Projects>(DATABASE_URL, query)
+  return projects
+}
+
+async function fetchAuthorByEmail(email: string) {
+  const DATABASE_URL = process.env.NEXT_PUBLIC_GRAPHQL_URL
+
+  if (!DATABASE_URL) {
+    throw new Error(
+      'Please define the DATABASE_URL environment variable inside .env.local',
+    )
+  }
+
+  const query = gql`
+    query Author($email: String!) {
+      author(filter: { email: $email }) {
+        id
+        name
+        avatar {
+          url
+        }
+        description
+      }
+    }
+  `
+  const author = await request<{ author: AuthorData }>(DATABASE_URL, query, {
+    email,
+  })
+  return author
+}
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const blogs = await fetchAllBlogs()
+  const projects = await fetchAllProjects()
+
+  const email = process.env.NEXT_PUBLIC_EMAIL
+  const URL = process.env.NEXT_PUBLIC_SITE_URL
+
+  if (!email) {
+    throw new Error(
+      'Please define the NEXT_PUBLIC_EMAIL environment variable inside .env.local',
+    )
+  }
+
+  const author = await fetchAuthorByEmail(email)
+
+  if (!author.author) {
+    throw new Error('Author not found')
+  }
+
+  const blogSlugs = blogs.blogs.map((blog) => blog.slug)
+  const projectSlugs = projects.projects.map((project) => project.slug)
+
+  const dynamicRoutes = [
+    ...blogSlugs.map((slug) => `/blog/${slug}`),
+    ...projectSlugs.map((slug) => `/project/${slug}`),
+  ].map((path) => ({
+    url: `${URL}${path}`,
+    lastModified: new Date().toISOString(),
   }))
+
+  const normalRoutes = [
+    '/',
+    '/blog',
+    '/projects',
+    '/about',
+    '/privacy-policy',
+    '/not-found',
+    '/contact',
+  ].map((path) => ({
+    url: `${URL}${path}`,
+    lastModified: new Date().toISOString(),
+  }))
+
+  return [...normalRoutes, ...dynamicRoutes]
 }
