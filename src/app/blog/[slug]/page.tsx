@@ -10,13 +10,15 @@ export default async function Page({ params }: { params: { slug: string } }) {
       <div className="mx-auto max-w-5xl px-4">
         <div className="mt-8">
           <div className="w-full relative h-full rounded-lg overflow-hidden">
-            <Image
-              src={blog.blog.imageUrl.url}
-              alt={blog.blog.title}
-              layout="fill"
-              objectFit="cover"
-              className="rounded-lg"
-            />
+            {blog.blog.imageUrl && (
+              <Image
+                src={blog.blog.imageUrl.url}
+                alt={blog.blog.title}
+                layout="responsive"
+                width={1200}
+                height={600}
+              />
+            )}
           </div>
           <h1 className="md:text-3xl text-2xl my-3 font-bold text-[#333333]">
             {blog.blog.title}

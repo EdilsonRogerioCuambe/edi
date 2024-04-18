@@ -116,7 +116,7 @@ export const getBlogBySlug = async (
   slug: string,
 ): Promise<{ blog: BlogData }> => {
   const query = gql`
-    query MyQuery {
+    query BlogBySlug {
       blog(
         where: {
           slug: "${slug}"
