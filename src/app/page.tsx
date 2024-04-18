@@ -3,6 +3,8 @@ import ContactForm from '@/components/contact.form'
 import Hero from '@/components/hero'
 import LatestNews from '@/components/latest.news'
 
+export const dynamicParams = false
+
 export const metadata: Metadata = {
   title: {
     template: '%s | Codando & Inovando',

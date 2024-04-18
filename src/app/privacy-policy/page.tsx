@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import Markdown from '@/components/markdown'
 
+export const dynamicParams = false
+
 export const metadata: Metadata = {
   title: {
     template: '%s | Codando & Inovando',

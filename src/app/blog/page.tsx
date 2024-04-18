@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import Blogs from '@/components/blogs'
 import { getAllBlogs } from '@/db/db'
 
+export const dynamicParams = false
+
 export const metadata: Metadata = {
   title: {
     template: '%s | Codando & Inovando',

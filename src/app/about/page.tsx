@@ -2,6 +2,8 @@ import Markdown from '@/components/markdown'
 import { getAuthorByEmail } from '@/db/db'
 import { NextSeo } from 'next-seo'
 
+export const dynamicParams = false
+
 export default async function Page() {
   const author = await getAuthorByEmail()
 

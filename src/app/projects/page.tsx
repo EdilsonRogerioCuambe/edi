@@ -4,6 +4,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
+export const dynamicParams = false
+
 export const metadata: Metadata = {
   title: {
     template: '%s | Codando & Inovando',

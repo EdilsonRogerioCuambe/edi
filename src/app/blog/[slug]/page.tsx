@@ -3,6 +3,8 @@ import { getBlogBySlug } from '@/db/db'
 import Markdown from '@/components/markdown'
 import { NextSeo } from 'next-seo'
 
+export const dynamicParams = false
+
 export default async function Page({ params }: { params: { slug: string } }) {
   const blog = await getBlogBySlug(params.slug)
 

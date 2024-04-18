@@ -4,6 +4,8 @@ import { NextSeo } from 'next-seo'
 import { getProjectBySlug } from '@/db/db'
 import Markdown from '@/components/markdown'
 
+export const dynamicParams = false
+
 export default async function Page({ params }: { params: { slug: string } }) {
   const project = await getProjectBySlug(params.slug)
   return (
