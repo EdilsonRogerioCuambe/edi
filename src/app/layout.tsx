@@ -47,14 +47,15 @@ export default function RootLayout({
 
   return (
     <html lang="pt">
-      <body className={`${code.className} bg-[##F5F5F5] text-[#333333]`}>
+      <head>
         <Script
-          id="Adsense-id"
-          data-ad-client="ca-pub-2130226174964724"
           async
-          strategy="afterInteractive"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2130226174964724"
+          crossOrigin="anonymous"
+          strategy="lazyOnload"
         />
+      </head>
+      <body className={`${code.className} bg-[##F5F5F5] text-[#333333]`}>
         <GoogleAnalytics GOOGLE_MEASUREMENT_ID={GOOGLE_ANALYTICS} />
         <Navbar />
         <Toaster position="top-center" />
