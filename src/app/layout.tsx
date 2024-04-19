@@ -53,9 +53,6 @@ export default function RootLayout({
           data-ad-client="ca-pub-2130226174964724"
           async
           strategy="afterInteractive"
-          onError={(e) => {
-            console.error('Script failed to load', e)
-          }}
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
         />
         <GoogleAnalytics GOOGLE_MEASUREMENT_ID={GOOGLE_ANALYTICS} />
