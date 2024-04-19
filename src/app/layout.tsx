@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Source_Code_Pro as SourceCode } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
+import Script from 'next/script'
 import './globals.css'
 import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
@@ -46,8 +47,18 @@ export default function RootLayout({
 
   return (
     <html lang="pt">
-      <GoogleAnalytics GOOGLE_MEASUREMENT_ID={GOOGLE_ANALYTICS} />
       <body className={`${code.className} bg-[##F5F5F5] text-[#333333]`}>
+        <Script
+          id="Adsense-id"
+          data-ad-client="ca-pub-2130226174964724"
+          async
+          strategy="afterInteractive"
+          onError={(e) => {
+            console.error('Script failed to load', e)
+          }}
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+        />
+        <GoogleAnalytics GOOGLE_MEASUREMENT_ID={GOOGLE_ANALYTICS} />
         <Navbar />
         <Toaster position="top-center" />
         {children}
