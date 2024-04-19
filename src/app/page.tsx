@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import ContactForm from '@/components/contact.form'
 import Hero from '@/components/hero'
 import LatestNews from '@/components/latest.news'
+import TechStack from '@/components/tech.stack'
 
 export const metadata: Metadata = {
   title: {
@@ -32,6 +33,7 @@ export default function Page() {
     <main>
       <Hero />
       <LatestNews />
+      <TechStack />
       <ContactForm />
     </main>
   )
