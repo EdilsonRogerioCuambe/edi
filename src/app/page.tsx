@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import ContactForm from '@/components/contact.form'
 import Hero from '@/components/hero'
 import LatestNews from '@/components/latest.news'
 import TechStack from '@/components/tech.stack'
@@ -34,7 +33,6 @@ export default function Page() {
       <Hero />
       <LatestNews />
       <TechStack />
-      <ContactForm />
     </main>
   )
 }
