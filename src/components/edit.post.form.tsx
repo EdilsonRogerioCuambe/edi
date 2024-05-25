@@ -54,7 +54,7 @@ export default function EditPostForm({ post }: EditPostFormProps) {
   }, [post.tags])
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="space-y-4">
       <TagLoader setTags={setTags} />
       <ImageUploader
         setUploadedImageUrl={setUploadedImageUrl}
@@ -64,20 +64,21 @@ export default function EditPostForm({ post }: EditPostFormProps) {
         placeholder="Título"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        className="placeholder:text-6xl placeholder:font-extrabold font-extrabold placeholder:text-[#333333] text-[#333333] w-full text-6xl rounded my-4 focus:outline-none overflow-hidden resize-none border-none"
+        rows={4}
+        className="placeholder:text-4xl h-auto md:placeholder:text-6xl placeholder:font-extrabold font-extrabold placeholder:text-[#333333] text-[#333333] w-full text-4xl md:text-6xl rounded my-4 focus:outline-none overflow-hidden resize-none border-none"
       />
       <textarea
         placeholder="Descrição curta"
         value={shortDesc}
         onChange={(e) => setShortDesc(e.target.value)}
-        rows={9}
-        className="placeholder:text-lg border-2 border-[#333333] placeholder:font-semibold font-semibold placeholder:text-[#333333] text-[#333333] w-full text-lg rounded my-4 focus:outline-none overflow-hidden resize-none p-2"
+        rows={5}
+        className="placeholder:text-base md:placeholder:text-lg border-2 border-[#333333] placeholder:font-semibold font-semibold placeholder:text-[#333333] text-[#333333] w-full text-base md:text-lg rounded my-4 focus:outline-none overflow-hidden resize-none p-2"
       />
       <TagSelector tags={tags} selectedTags={tags} setSelectedTags={setTags} />
       <Editor value={content} onChange={handleContentChange} />
       <button
         type="submit"
-        className="bg-[#333333] text-white rounded px-4 py-2"
+        className="bg-[#333333] text-white rounded px-4 py-2 w-full sm:w-auto"
       >
         Atualizar post
       </button>

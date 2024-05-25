@@ -67,7 +67,7 @@ export default function ProjectForm({ project }: ProjectFormProps) {
         placeholder="Título"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        className="placeholder:text-6xl placeholder:font-extrabold font-extrabold placeholder:text-[#333333] text-[#333333] w-full text-6xl rounded my-4 focus:outline-none overflow-hidden resize-none border-none"
+        className="placeholder:text-6xl h-auto placeholder:font-extrabold font-extrabold placeholder:text-[#333333] text-[#333333] w-full text-6xl rounded my-4 focus:outline-none overflow-hidden resize-none border-none"
       />
       <textarea
         placeholder="Descrição curta"
