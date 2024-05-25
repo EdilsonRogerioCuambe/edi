@@ -12,6 +12,7 @@ model User {
   name          String
   role          Role      @default(USER)
   email         String?   @unique
+  description   String?
   password      String?
   emailVerified DateTime? @map("email_verified")
   image         String?
@@ -20,6 +21,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   posts         Post[]
+  projects      Project[]
 
   @@map("users")
 }
@@ -74,18 +76,18 @@ enum Role {
 }
 
 model Post {
-  id        String    @id @default(uuid()) @map("_id")
+  id        String   @id @default(uuid()) @map("_id")
   image     String?
   title     String
-  slug      String    @unique
+  slug      String   @unique
   shortDesc String
-  views     Int       @default(0)
+  views     Int      @default(0)
   content   String
-  published Boolean   @default(false)
-  author    User?     @relation(fields: [authorId], references: [id])
+  published Boolean  @default(false)
+  author    User?    @relation(fields: [authorId], references: [id])
   authorId  String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   tags      Tag[]
 
   @@map("posts")
@@ -102,4 +104,23 @@ model Tag {
   updatedAt DateTime @updatedAt
 
   @@map("tags")
+}
+
+model Project {
+  id          String   @id @default(uuid()) @map("_id")
+  title       String
+  slug        String   @unique
+  shortDesc   String
+  description String
+  github      String?
+  demo        String?
+  languages   String[]
+  image       String
+  author      User?    @relation(fields: [authorId], references: [id])
+  authorId    String?
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("projects")
 }

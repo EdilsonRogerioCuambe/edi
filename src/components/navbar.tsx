@@ -65,12 +65,6 @@ export default function Navbar() {
             >
               Projetos
             </Link>
-            <Link
-              href="/about"
-              className={`p-2 ${pathname === '/about' ? 'border-b-2 border-[#333333]' : ''}`}
-            >
-              Sobre
-            </Link>
             <SignInButton />
           </div>
           <div className="md:hidden">
@@ -134,13 +128,6 @@ export default function Navbar() {
                 onClick={() => setOpen(false)}
               >
                 Projetos
-              </Link>
-              <Link
-                href="/about"
-                className={`p-2 ${pathname === '/about' ? 'border-b-2 border-[#333333]' : ''}`}
-                onClick={() => setOpen(false)}
-              >
-                Sobre
               </Link>
               <SignInButton />
             </div>

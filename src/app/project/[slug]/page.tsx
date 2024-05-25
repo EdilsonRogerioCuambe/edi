@@ -1,8 +1,8 @@
 import Image from 'next/image'
-
-import { getProjectBySlug } from '@/db/db'
+import prisma from '@/db/prisma'
 import Markdown from '@/components/markdown'
 import { Metadata, ResolvingMetadata } from 'next'
+import { redirect } from 'next/navigation'
 
 export const dynamicParams = false
 
@@ -11,7 +11,12 @@ export async function generateMetadata(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const project = await getProjectBySlug(params.params.slug)
+  const { slug } = params.params
+  const project = await prisma.project.findUnique({
+    where: {
+      slug,
+    },
+  })
 
   if (!project) {
     return {}
@@ -21,20 +26,20 @@ export async function generateMetadata(
     metadataBase: new URL('https://edilsoncuambe.tech'),
     title: {
       template: '%s | Tecnologia em Foco com Edilson Cuambe',
-      default: project.project.name,
+      default: project.title,
     },
-    description: project.project.description,
+    description: project.description,
     creator: 'Edilson Rogério Cuambe',
     publisher: 'Edilson Rogério Cuambe',
-    keywords: project.project.langs,
+    keywords: project.languages,
     openGraph: {
       type: 'website',
       locale: 'pt_BR',
-      url: `https://edilsoncuambe.site/project/${project.project.slug}`,
-      images: project.project.imageUrl.url,
+      url: `https://edilsoncuambe.site/project/${project.slug}`,
+      images: project.image,
       siteName: 'Edilson | Codando & Inovando',
-      title: project.project.name,
-      description: project.project.description,
+      title: project.title,
+      description: project.description,
     },
     robots: {
       index: false,
@@ -59,7 +64,16 @@ export async function generateMetadata(
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  const project = await getProjectBySlug(params.slug)
+  const project = await prisma.project.findUnique({
+    where: {
+      slug: params.slug,
+    },
+  })
+
+  if (!project) {
+    redirect('/404')
+  }
+
   return (
     <>
       <main className="pt-20">
@@ -67,17 +81,17 @@ export default async function Page({ params }: { params: { slug: string } }) {
           <div className="mt-8">
             <div className="w-full relative h-[300px] md:h-[500px]">
               <Image
-                src={project.project.imageUrl.url}
-                alt={project.project.name}
+                src={project.image}
+                alt={project.title}
                 fill
                 objectFit="contain"
                 className="rounded-lg"
               />
             </div>
             <h1 className="md:text-3xl text-xl my-3 font-bold text-[#333333]">
-              {project.project.name}
+              {project.title}
             </h1>
-            <Markdown content={project.project.content} />
+            <Markdown content={project.description} />
           </div>
         </div>
       </main>

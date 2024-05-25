@@ -1,6 +1,6 @@
 import Markdown from '@/components/markdown'
-import { getAuthorByEmail } from '@/db/db'
 import type { Metadata } from 'next'
+import prisma from '@/db/prisma'
 
 export const metadata: Metadata = {
   title: {
@@ -27,17 +27,19 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
-  const author = await getAuthorByEmail()
+  const author = await prisma.user.findUnique({
+    where: {
+      email: process.env.NEXT_PUBLIC_EMAIL,
+    },
+  })
 
   return (
     <>
       <main className="pt-20">
         <div className="max-w-5xl mx-auto px-4">
-          <h3 className="text-4xl font-bold text-[#333333]">
-            {author?.author?.name}
-          </h3>
+          <h3 className="text-4xl font-bold text-[#333333]">{author?.name}</h3>
           <div className="mt-8">
-            <Markdown content={author?.author?.description} />
+            <Markdown content={author?.description as string} />
           </div>
         </div>
       </main>

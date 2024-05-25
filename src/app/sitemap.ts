@@ -21,6 +21,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     throw new Error('Author not found')
   }
 
+  const projects = await prisma.project.findMany({
+    select: {
+      slug: true,
+    },
+  })
+
   const blogs = await prisma.post.findMany({
     select: {
       slug: true,
@@ -29,12 +35,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const blogSlugs = blogs.map((blog) => blog.slug)
 
-  const dynamicRoutes = [...blogSlugs.map((slug) => `/blog/${slug}`)].map(
-    (path) => ({
-      url: `${URL}${path}`,
-      lastModified: new Date().toISOString(),
-    }),
-  )
+  const dynamicRoutes = [
+    ...blogSlugs.map((slug) => `/blog/${slug}`),
+    ...projects.map((project) => `/project/${project.slug}`),
+  ].map((path) => ({
+    url: `${URL}${path}`,
+    lastModified: new Date().toISOString(),
+  }))
 
   const normalRoutes = [
     '/',
