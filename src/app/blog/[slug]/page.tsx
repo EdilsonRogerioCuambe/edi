@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { getBlogBySlug } from '@/db/db'
+import prisma from '@/db/prisma'
 import Markdown from '@/components/markdown'
 import { Metadata, ResolvingMetadata } from 'next'
 import ShareLink from '@/components/share.link'
@@ -11,7 +11,16 @@ export async function generateMetadata(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const blog = await getBlogBySlug(params.params.slug)
+  const { slug } = params.params
+  const blog = await prisma.post.findFirst({
+    where: { slug },
+    include: {
+      tags: true,
+      author: {
+        select: { name: true },
+      },
+    },
+  })
 
   if (!blog) {
     return {}
@@ -21,21 +30,21 @@ export async function generateMetadata(
     metadataBase: new URL('https://edilsoncuambe.tech'),
     title: {
       template: '%s | Tecnologia em Foco com Edilson Cuambe',
-      default: blog.blog.title,
+      default: blog.title,
     },
-    description: blog.blog.description,
-    creator: blog.blog.author.name,
-    publisher: blog.blog.author.name,
-    category: blog.blog.category,
-    keywords: blog.blog.tags,
+    description: blog.shortDesc,
+    creator: blog.author?.name || 'Edilson Cuambe',
+    publisher: blog.author?.name,
+    category: blog.tags.map((tag) => tag.name).join(',') || 'Tecnologia',
+    keywords: blog.tags.map((tag) => tag.name).join(',') || 'Tecnologia',
     openGraph: {
       type: 'website',
       locale: 'pt_BR',
-      url: `https://edilsoncuambe.site/blog/${blog.blog.slug}`,
-      images: blog.blog.imageUrl.url,
+      url: `https://edilsoncuambe.site/blog/${blog.slug}`,
+      images: blog.image ? [{ url: blog.image }] : [],
       siteName: 'Edilson | Codando & Inovando',
-      title: blog.blog.title,
-      description: blog.blog.description,
+      title: blog.title,
+      description: blog.shortDesc,
     },
     robots: {
       index: false,
@@ -60,7 +69,24 @@ export async function generateMetadata(
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  const blog = await getBlogBySlug(params.slug)
+  const blog = await prisma.post.findFirst({
+    where: { slug: params.slug },
+    include: {
+      tags: true,
+      author: {
+        select: { name: true, image: true },
+      },
+    },
+  })
+
+  if (!blog) {
+    return <div>Post não encontrado</div>
+  }
+
+  await prisma.post.update({
+    where: { id: blog.id },
+    data: { views: blog.views + 1 },
+  })
 
   return (
     <>
@@ -68,27 +94,23 @@ export default async function Page({ params }: { params: { slug: string } }) {
         <div className="mx-auto max-w-5xl px-4">
           <div className="mt-8">
             <div className="w-full relative h-full rounded-lg overflow-hidden">
-              {blog.blog.imageUrl && (
+              {blog.image && (
                 <Image
-                  src={blog.blog.imageUrl.url}
-                  alt={blog.blog.title}
+                  src={blog.image}
+                  alt={blog.title}
                   layout="responsive"
                   width={1200}
                   height={600}
                 />
               )}
             </div>
-            <h1 className="md:text-3xl text-2xl my-3 font-bold text-[#333333]">
-              {blog.blog.title}
-            </h1>
-            {/** imagem, nome do autor, data de publicação e botão de compartilhar */}
             <div className="flex items-center justify-between my-4">
               <div className="flex items-center space-x-4">
                 <div className="relative w-10 h-10 overflow-hidden rounded-full bg-gray-200">
-                  {blog.blog.author.avatar && (
+                  {blog.author && blog.author.image && blog.author.image && (
                     <Image
-                      src={blog.blog.author.avatar.url}
-                      alt={blog.blog.author.name}
+                      src={blog.author.image}
+                      alt={blog.author.name}
                       width={40}
                       height={40}
                       className="rounded-full"
@@ -96,26 +118,23 @@ export default async function Page({ params }: { params: { slug: string } }) {
                   )}
                 </div>
                 <div className="text-[#333333]">
-                  <p className="text-md">{blog.blog.author.name}</p>
+                  <p className="text-md">{blog.author?.name}</p>
                   <p className="text-sm">
-                    {new Date(blog.blog.publishedAt).toLocaleDateString(
-                      'pt-BR',
-                      {
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric',
-                      },
-                    )}
+                    {new Date(blog.updatedAt).toLocaleDateString('pt-BR', {
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric',
+                    })}
                   </p>
                 </div>
               </div>
               <ShareLink
-                url={`https://edilson.site/blog/${blog.blog.slug}`}
-                title={blog.blog.title}
-                description={blog.blog.description}
+                url={`https://edilson.site/blog/${blog.slug}`}
+                title={blog.title}
+                description={blog.shortDesc}
               />
             </div>
-            <Markdown content={blog.blog.content} />
+            <Markdown content={blog.content} />
           </div>
         </div>
       </main>

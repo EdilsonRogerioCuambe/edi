@@ -1,15 +1,9 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import {
-  Linkedin,
-  Github,
-  Menu,
-  X,
-  GitPullRequestArrow,
-  Mail,
-} from 'lucide-react'
+import { Menu, X, GitPullRequestArrow } from 'lucide-react'
 import { usePathname } from 'next/navigation'
+import SignInButton from './sign.in.button'
 import { cn } from '@/lib/utils'
 
 export default function Navbar() {
@@ -77,29 +71,7 @@ export default function Navbar() {
             >
               Sobre
             </Link>
-          </div>
-          <div className="md:flex md:space-x-4 md:items-center hidden">
-            <Link
-              href="https://linkedin.com/in/seulink"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Linkedin size={24} />
-            </Link>
-            <Link
-              href="https://github.com/seulink"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Github size={24} />
-            </Link>
-            <Link
-              href="mailto:edilson@aluno.unilab.edu.br"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Mail size={24} />
-            </Link>
+            <SignInButton />
           </div>
           <div className="md:hidden">
             <button
@@ -170,29 +142,7 @@ export default function Navbar() {
               >
                 Sobre
               </Link>
-              <div className="flex space-x-4">
-                <Link
-                  href="https://linkedin.com/in/seulink"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Linkedin size={24} />
-                </Link>
-                <Link
-                  href="https://linkedin.com/in/seulink"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Github size={24} />
-                </Link>
-                <Link
-                  href="mailto:edilson@aluno.unilab.edu.br"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Mail size={24} />
-                </Link>
-              </div>
+              <SignInButton />
             </div>
           </div>
         </div>

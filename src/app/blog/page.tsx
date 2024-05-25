@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Blogs from '@/components/blogs'
-import { getAllBlogs } from '@/db/db'
+import prisma from '@/db/prisma'
 
 export const metadata: Metadata = {
   title: {
@@ -27,12 +27,19 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
-  const blogs = await getAllBlogs()
+  const blogs = await prisma.post.findMany({
+    orderBy: { createdAt: 'desc' },
+    include: {
+      tags: true,
+      author: true,
+    },
+  })
+
   return (
     <>
       <main className="pt-20">
         <div className="max-w-5xl mx-auto px-4">
-          <Blogs blogs={blogs.blogs} />
+          <Blogs blogs={blogs} />
         </div>
       </main>
     </>

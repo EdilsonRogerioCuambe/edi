@@ -7,8 +7,11 @@ import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
 import GoogleAnalytics from '@/components/google.analytics'
 import CookieBanner from '@/components/cookie.banner'
+import Providers from '@/lib/providers'
 
 const code = SourceCode({ subsets: ['latin'] })
+
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: {
@@ -46,23 +49,25 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="pt">
-      <head>
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2130226174964724"
-          crossOrigin="anonymous"
-          strategy="lazyOnload"
-        />
-      </head>
-      <body className={`${code.className} bg-[##F5F5F5] text-[#333333]`}>
-        <GoogleAnalytics GOOGLE_MEASUREMENT_ID={GOOGLE_ANALYTICS} />
-        <Navbar />
-        <Toaster position="top-center" />
-        {children}
-        <Footer />
-        <CookieBanner />
-      </body>
-    </html>
+    <Providers>
+      <html lang="pt">
+        <head>
+          <Script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2130226174964724"
+            crossOrigin="anonymous"
+            strategy="lazyOnload"
+          />
+        </head>
+        <body className={`${code.className} bg-[##F5F5F5] text-[#333333]`}>
+          <GoogleAnalytics GOOGLE_MEASUREMENT_ID={GOOGLE_ANALYTICS} />
+          <Navbar />
+          <Toaster position="top-center" />
+          {children}
+          <Footer />
+          <CookieBanner />
+        </body>
+      </html>
+    </Providers>
   )
 }

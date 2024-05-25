@@ -2,34 +2,13 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-
-type AuthorData = {
-  id: string
-  name: string
-  avatar: {
-    url: string
-  }
-  description: string
-}
-
-type BlogData = {
-  id: string
-  title: string
-  content: string
-  description: string
-  slug: string
-  imageUrl: {
-    url: string
-  }
-  tags: string[]
-  category: string
-  author: AuthorData
-  updatedAt: string
-  publishedAt: string
-}
+import { Post, User, Tag } from '@prisma/client'
 
 type BlogsProps = {
-  blogs: BlogData[]
+  blogs: (Post & {
+    tags: Tag[]
+    author: User | null
+  })[]
 }
 
 export default function Blogs({ blogs }: BlogsProps) {
@@ -41,8 +20,7 @@ export default function Blogs({ blogs }: BlogsProps) {
   }, [currentPage])
 
   const sortedBlogs = blogs.sort(
-    (a, b) =>
-      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+    (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
   )
 
   const indexOfLastPost = currentPage * postsPerPage
@@ -59,21 +37,23 @@ export default function Blogs({ blogs }: BlogsProps) {
           className="flex flex-col md:flex-row items-center md:space-x-4 my-4"
         >
           <div className="md:w-1/3 w-full">
-            <Image
-              src={blog.imageUrl.url}
-              alt={blog.title}
-              width={400}
-              height={300}
-              placeholder="blur"
-              blurDataURL={blog.imageUrl.url}
-              loading="lazy"
-              className="rounded-lg w-full object-cover"
-            />
+            {blog.image && (
+              <Image
+                src={blog.image}
+                alt={blog.title}
+                width={400}
+                height={300}
+                placeholder="blur"
+                blurDataURL={blog.image}
+                loading="lazy"
+                className="rounded-lg w-full object-cover"
+              />
+            )}
           </div>
           <div className="md:w-2/3 w-full mt-4 md:mt-0">
             <p className="text-sm text-[#333333]">
-              {blog.category} •{' '}
-              {new Date(blog.publishedAt).toLocaleDateString()}
+              {blog.author && blog.author.name} -{' '}
+              {new Date(blog.updatedAt).toLocaleDateString()}
             </p>
             <Link
               href={`/blog/${blog.slug}`}
@@ -81,14 +61,14 @@ export default function Blogs({ blogs }: BlogsProps) {
             >
               <h3 className="text-xl font-bold mb-2">{blog.title}</h3>
             </Link>
-            <p className="mb-4">{blog.description}</p>
+            <p className="mb-4">{blog.shortDesc}</p>
             <div className="flex flex-wrap items-center gap-2">
               {blog.tags.map((tag) => (
                 <span
-                  key={tag}
+                  key={tag.id}
                   className="text-sm text-[#333333] border-2 px-2 py-1 rounded-lg border-[#333333]"
                 >
-                  {tag}
+                  {tag.name}
                 </span>
               ))}
             </div>
