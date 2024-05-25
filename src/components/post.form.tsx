@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import ImageUploader from './image.uploader'
@@ -18,6 +18,14 @@ export default function PostForm() {
   const [title, setTitle] = useState('')
   const [shortDesc, setShortDesc] = useState('')
   const [content, setContent] = useState('')
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto'
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
+    }
+  }, [title])
 
   const handleContentChange = (value: string) => {
     setContent(value)
@@ -53,6 +61,7 @@ export default function PostForm() {
       <textarea
         placeholder="Título"
         value={title}
+        ref={textareaRef}
         onChange={(e) => setTitle(e.target.value)}
         className="placeholder:text-4xl h-auto md:placeholder:text-6xl placeholder:font-extrabold font-extrabold placeholder:text-[#333333] text-[#333333] w-full text-4xl md:text-6xl rounded my-4 focus:outline-none overflow-hidden resize-none border-none"
       />

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import ImageUploader from './image.uploader'
@@ -25,6 +25,14 @@ export default function ProjectForm({ project }: ProjectFormProps) {
   const [github, setGithub] = useState(project?.github || '')
   const [demo, setDemo] = useState(project?.demo || '')
   const [languages, setLanguages] = useState<string[]>(project?.languages || [])
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto'
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
+    }
+  }, [title])
 
   const handleDescriptionChange = (value: string) => {
     setDescription(value)
@@ -67,6 +75,7 @@ export default function ProjectForm({ project }: ProjectFormProps) {
         placeholder="Título"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+        ref={textareaRef}
         className="placeholder:text-6xl h-auto placeholder:font-extrabold font-extrabold placeholder:text-[#333333] text-[#333333] w-full text-6xl rounded my-4 focus:outline-none overflow-hidden resize-none border-none"
       />
       <textarea
