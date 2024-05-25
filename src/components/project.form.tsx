@@ -52,13 +52,17 @@ export default function ProjectForm({ project }: ProjectFormProps) {
         email: session?.user?.email,
       }
       if (project) {
-        await axios.patch(`/api/admin/project/${project.slug}`, projectData)
+        const response = await axios.patch(
+          `/api/admin/project/${project.slug}`,
+          projectData,
+        )
         toast.success('Projeto atualizado com sucesso')
+        router.push(`/project/${response.data.slug}`)
       } else {
-        await axios.post('/api/admin/projects', projectData)
+        const response = await axios.post('/api/admin/projects', projectData)
+        router.push(`/project/${response.data.slug}`)
         toast.success('Projeto criado com sucesso')
       }
-      router.push('/admin/projects')
     } catch (error) {
       console.error(error)
       toast.error(`Erro ao ${project ? 'atualizar' : 'criar'} projeto`)

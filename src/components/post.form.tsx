@@ -42,9 +42,9 @@ export default function PostForm() {
         email: session?.user?.email,
         tags: tags.map((tag) => tag.id),
       }
-      await axios.post('/api/admin/blogs', postData)
+      const response = await axios.post('/api/admin/blogs', postData)
       toast.success('Post criado com sucesso')
-      router.push('/admin/posts')
+      router.push(`/blog/${response.data.slug}`)
     } catch (error) {
       console.error(error)
       toast.error('Erro ao criar post')
