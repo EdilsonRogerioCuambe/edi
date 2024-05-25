@@ -3,6 +3,8 @@ import prisma from '@/db/prisma'
 import Markdown from '@/components/markdown'
 import { Metadata, ResolvingMetadata } from 'next'
 import ShareLink from '@/components/share.link'
+import { redirect } from 'next/navigation'
+import { Eye } from 'lucide-react'
 
 export const dynamicParams = false
 
@@ -80,12 +82,16 @@ export default async function Page({ params }: { params: { slug: string } }) {
   })
 
   if (!blog) {
-    return <div>Post não encontrado</div>
+    redirect('/404')
   }
 
   await prisma.post.update({
     where: { id: blog.id },
-    data: { views: blog.views + 1 },
+    data: {
+      views: {
+        increment: 1,
+      },
+    },
   })
 
   return (
@@ -107,7 +113,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
             <div className="flex items-center justify-between my-4">
               <div className="flex items-center space-x-4">
                 <div className="relative w-10 h-10 overflow-hidden rounded-full bg-gray-200">
-                  {blog.author && blog.author.image && blog.author.image && (
+                  {blog.author && blog.author.image && (
                     <Image
                       src={blog.author.image}
                       alt={blog.author.name}
@@ -119,20 +125,28 @@ export default async function Page({ params }: { params: { slug: string } }) {
                 </div>
                 <div className="text-[#333333]">
                   <p className="text-md">{blog.author?.name}</p>
-                  <p className="text-sm">
-                    {new Date(blog.updatedAt).toLocaleDateString('pt-BR', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric',
-                    })}
-                  </p>
+                  <div className="flex items-center space-x-2">
+                    <p className="text-sm">
+                      {new Date(blog.updatedAt).toLocaleDateString('pt-BR', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                      })}
+                    </p>
+                    <p className="text-sm flex items-center gap-x-2">
+                      <Eye size={16} />
+                      {blog.views}
+                    </p>
+                  </div>
                 </div>
               </div>
-              <ShareLink
-                url={`https://edilson.site/blog/${blog.slug}`}
-                title={blog.title}
-                description={blog.shortDesc}
-              />
+              <div className="flex items-center space-x-4">
+                <ShareLink
+                  url={`https://edilson.site/blog/${blog.slug}`}
+                  title={blog.title}
+                  description={blog.shortDesc}
+                />
+              </div>
             </div>
             <Markdown content={blog.content} />
           </div>
