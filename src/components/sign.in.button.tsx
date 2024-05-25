@@ -32,9 +32,9 @@ export default function SignInButton() {
   }
 
   return (
-    <div className="relative">
+    <div className="relative flex items-center md:justify-end justify-center w-full">
       {session && session.user ? (
-        <div className="flex gap-4 ml-auto items-center">
+        <div className="flex items-center gap-4">
           {session.user.image && session.user.name && (
             <div className="relative">
               <Image
@@ -46,7 +46,7 @@ export default function SignInButton() {
                 onClick={handleDropdownToggle}
               />
               {dropdownOpen && (
-                <div className="absolute right-0 mt-2 w-60 bg-[#333333] border rounded-md shadow-lg">
+                <div className="absolute right-0 mt-2 w-48 bg-[#333333] border rounded-md shadow-lg z-10">
                   <div className="py-2">
                     <p className="px-4 py-2 text-sm text-[#f5f5f5]">
                       {user?.name}
@@ -84,7 +84,7 @@ export default function SignInButton() {
           onClick={() => signIn('github')}
         >
           <Github size={24} />
-          Sign in
+          <span className="hidden sm:inline">Sign in</span>
         </button>
       )}
     </div>

@@ -14,6 +14,7 @@ export default async function LatestNews() {
       },
     },
   })
+
   return (
     <section className="">
       <div className="max-w-5xl mx-auto px-4">
@@ -47,7 +48,7 @@ export default async function LatestNews() {
               >
                 <h3 className="text-xl font-bold mb-2">{news.title}</h3>
               </Link>
-              <p className="mb-4">{news.shortDesc}</p>
+              <p className="mb-4">{news.shortDesc.slice(0, 175)}...</p>
               <div className="flex flex-wrap items-center gap-2">
                 {news.tags.map((tag) => (
                   <span
