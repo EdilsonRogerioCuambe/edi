@@ -39,9 +39,7 @@ export async function PATCH(
         shortDesc,
         slug: slugify(title, { lower: true, strict: true }),
         image,
-        languages: {
-          set: languages.map((language: string) => ({ name: language })),
-        },
+        languages,
       },
     })
 

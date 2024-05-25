@@ -44,7 +44,7 @@ export default function ProjectForm({ project }: ProjectFormProps) {
         email: session?.user?.email,
       }
       if (project) {
-        await axios.put(`/api/admin/projects/${project.id}`, projectData)
+        await axios.patch(`/api/admin/project/${project.slug}`, projectData)
         toast.success('Projeto atualizado com sucesso')
       } else {
         await axios.post('/api/admin/projects', projectData)
