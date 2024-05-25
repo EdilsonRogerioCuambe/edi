@@ -1,4 +1,3 @@
-import { Github } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
@@ -33,53 +32,58 @@ export default async function Page() {
     orderBy: {
       createdAt: 'desc',
     },
+    include: {
+      author: {
+        select: {
+          name: true,
+        },
+      },
+    },
   })
 
   return (
-    <main className="pt-20 max-w-5xl mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
-        {projects.map((project) => (
-          <div
-            key={project.id}
-            className="bg-white rounded-lg shadow-lg transition-shadow duration-300 overflow-hidden"
-          >
-            <div className="relative h-[200px]">
+    <main className="pt-20 max-w-5xl px-4 mx-auto">
+      {projects.map((project) => (
+        <div
+          key={project.id}
+          className="flex flex-col md:flex-row items-center md:space-x-4 my-4"
+        >
+          <div className="md:w-1/3 w-full">
+            {project.image && (
               <Image
                 src={project.image}
                 alt={project.title}
-                fill
-                className="rounded-t-lg w-full h-full object-cover"
+                width={400}
+                height={300}
+                className="rounded-lg w-full object-cover"
               />
-            </div>
-            <div className="p-4">
-              <Link
-                href={`/project/${project.slug}`}
-                className="text-xl font-semibold hover:underline"
-              >
-                <h3 className="text-lg font-semibold">{project.title}</h3>
-              </Link>
-              <div className="flex justify-between items-center mt-4">
-                {project.github && (
-                  <Link
-                    href={project.github}
-                    className="text-blue-400 hover:underline"
-                  >
-                    <Github size={24} />
-                  </Link>
-                )}
-                {project.languages.map((lang) => (
-                  <span
-                    key={lang}
-                    className="text-sm text-gray-600 border-2 px-2 py-1 rounded-lg border-gray-600"
-                  >
-                    {lang}
-                  </span>
-                ))}
-              </div>
+            )}
+          </div>
+          <div className="md:w-2/3 w-full mt-4 md:mt-0">
+            <p className="text-sm text-[#333333]">
+              {project.author && project.author.name} -{' '}
+              {new Date(project.createdAt).toLocaleDateString()}
+            </p>
+            <Link
+              href={`/project/${project.slug}`}
+              className="text-[#333333] font-bold hover:underline cursor-pointer transition-all ease-in-out duration-300"
+            >
+              <h3 className="text-xl font-bold mb-2">{project.title}</h3>
+            </Link>
+            <p className="mb-4">{project.shortDesc.slice(0, 175)}...</p>
+            <div className="flex flex-wrap items-center gap-2">
+              {project.languages.map((tag) => (
+                <span
+                  key={tag}
+                  className="text-sm text-[#333333] border-2 px-2 py-1 rounded-lg border-[#333333]"
+                >
+                  {tag}
+                </span>
+              ))}
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </main>
   )
 }

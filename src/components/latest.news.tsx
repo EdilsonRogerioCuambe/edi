@@ -2,8 +2,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import prisma from '@/db/prisma'
 
-import { MoveRight } from 'lucide-react'
-
 export default async function LatestNews() {
   const blogs = await prisma.post.findMany({
     orderBy: { published: 'desc' },
@@ -16,7 +14,7 @@ export default async function LatestNews() {
   })
 
   return (
-    <section className="">
+    <section>
       <div className="max-w-5xl mx-auto px-4">
         <h2 className="text-2xl font-bold text-[#333333] text-start mb-4">
           Últimas Notícias
@@ -62,18 +60,6 @@ export default async function LatestNews() {
             </div>
           </div>
         ))}
-        <div className="flex justify-center mt-8">
-          <Link
-            href="/blog"
-            className="text-[#333333] font-bold flex items-center cursor-pointer hover:underline transition-all ease-in-out duration-300"
-          >
-            Ver mais notícias
-            <MoveRight
-              size={24}
-              className="ml-2 hover:translate-x-1 transition-transform"
-            />
-          </Link>
-        </div>
       </div>
     </section>
   )

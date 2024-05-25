@@ -61,7 +61,7 @@ export default function Blogs({ blogs }: BlogsProps) {
             >
               <h3 className="text-xl font-bold mb-2">{blog.title}</h3>
             </Link>
-            <p className="mb-4">{blog.shortDesc}</p>
+            <p className="mb-4">{blog.shortDesc.slice(0, 175)}...</p>
             <div className="flex flex-wrap items-center gap-2">
               {blog.tags.map((tag) => (
                 <span
