@@ -57,7 +57,7 @@ export default function Blogs({ blogs }: BlogsProps) {
               blog.image ? 'md:w-2/3' : 'md:w-full'
             } w-full text-start`}
           >
-            <p className="text-sm text-[#333333]">
+            <p className="text-sm my-1 text-[#333333]">
               {blog.author && blog.author.name} -{' '}
               {new Date(blog.updatedAt).toLocaleDateString()}
             </p>

@@ -42,7 +42,7 @@ export default async function LatestNews() {
                 news.image ? 'md:w-2/3' : 'md:w-full'
               } w-full text-start`}
             >
-              <p className="text-sm text-[#333333]">
+              <p className="text-sm my-1 text-[#333333]">
                 {news.author && news.author.name} -{' '}
                 {new Date(news.createdAt).toLocaleDateString()}
               </p>
