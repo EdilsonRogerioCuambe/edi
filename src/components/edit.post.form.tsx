@@ -17,7 +17,6 @@ interface EditPostFormProps {
 export default function EditPostForm({ post }: EditPostFormProps) {
   const router = useRouter()
   const { data: session } = useSession()
-  const [allTags, setAllTags] = useState<Tag[]>([])
   const [selectedTags, setSelectedTags] = useState<Tag[]>([])
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(
     post.image || null,
@@ -64,7 +63,7 @@ export default function EditPostForm({ post }: EditPostFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <TagLoader setAllTags={setAllTags} />
+      <TagLoader setTags={setSelectedTags} />
       <ImageUploader
         setUploadedImageUrl={setUploadedImageUrl}
         initialImageUrl={uploadedImageUrl}
@@ -84,7 +83,7 @@ export default function EditPostForm({ post }: EditPostFormProps) {
         className="placeholder:text-base md:placeholder:text-lg border-2 border-[#333333] placeholder:font-semibold font-semibold placeholder:text-[#333333] text-[#333333] w-full text-base md:text-lg rounded my-4 focus:outline-none overflow-hidden resize-none p-2"
       />
       <TagSelector
-        allTags={allTags}
+        tags={selectedTags}
         selectedTags={selectedTags}
         setSelectedTags={setSelectedTags}
       />
