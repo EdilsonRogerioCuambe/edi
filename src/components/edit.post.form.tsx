@@ -17,7 +17,8 @@ interface EditPostFormProps {
 export default function EditPostForm({ post }: EditPostFormProps) {
   const router = useRouter()
   const { data: session } = useSession()
-  const [tags, setTags] = useState<Tag[]>([])
+  const [allTags, setAllTags] = useState<Tag[]>([])
+  const [selectedTags, setSelectedTags] = useState<Tag[]>([])
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(
     post.image || null,
   )
@@ -45,7 +46,7 @@ export default function EditPostForm({ post }: EditPostFormProps) {
         content,
         shortDesc,
         image: uploadedImageUrl,
-        tags: tags.map((tag) => tag.id),
+        tags: selectedTags.map((tag) => tag.id),
         authorId: session?.user?.id,
       }
       await axios.patch(`/api/admin/blog/${post.slug}`, updatedPost)
@@ -58,12 +59,12 @@ export default function EditPostForm({ post }: EditPostFormProps) {
   }
 
   useEffect(() => {
-    setTags(post.tags)
+    setSelectedTags(post.tags)
   }, [post.tags])
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <TagLoader setTags={setTags} />
+      <TagLoader setAllTags={setAllTags} />
       <ImageUploader
         setUploadedImageUrl={setUploadedImageUrl}
         initialImageUrl={uploadedImageUrl}
@@ -82,7 +83,11 @@ export default function EditPostForm({ post }: EditPostFormProps) {
         rows={5}
         className="placeholder:text-base md:placeholder:text-lg border-2 border-[#333333] placeholder:font-semibold font-semibold placeholder:text-[#333333] text-[#333333] w-full text-base md:text-lg rounded my-4 focus:outline-none overflow-hidden resize-none p-2"
       />
-      <TagSelector tags={tags} selectedTags={tags} setSelectedTags={setTags} />
+      <TagSelector
+        allTags={allTags}
+        selectedTags={selectedTags}
+        setSelectedTags={setSelectedTags}
+      />
       <Editor value={content} onChange={handleContentChange} />
       <button
         type="submit"

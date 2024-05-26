@@ -4,7 +4,7 @@ import prisma from '@/db/prisma'
 
 export default async function LatestNews() {
   const blogs = await prisma.post.findMany({
-    orderBy: { published: 'desc' },
+    orderBy: { updatedAt: 'desc' },
     include: {
       tags: true,
       author: {
