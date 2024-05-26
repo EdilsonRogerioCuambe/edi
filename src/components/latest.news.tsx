@@ -22,10 +22,12 @@ export default async function LatestNews() {
         {blogs.map((news) => (
           <div
             key={news.id}
-            className="flex flex-col md:flex-row items-center md:space-x-4 my-4"
+            className={`flex flex-col ${
+              news.image ? 'md:flex-row' : 'md:flex-col'
+            } items-center md:space-x-4 my-4`}
           >
-            <div className="md:w-1/3 w-full">
-              {news.image && (
+            {news.image && (
+              <div className="md:w-1/3 w-full">
                 <Image
                   src={news.image}
                   alt={news.title}
@@ -33,9 +35,13 @@ export default async function LatestNews() {
                   height={300}
                   className="rounded-lg w-full object-cover"
                 />
-              )}
-            </div>
-            <div className="md:w-2/3 w-full mt-4 md:mt-0">
+              </div>
+            )}
+            <div
+              className={`${
+                news.image ? 'md:w-2/3' : 'md:w-full'
+              } w-full text-start`}
+            >
               <p className="text-sm text-[#333333]">
                 {news.author && news.author.name} -{' '}
                 {new Date(news.createdAt).toLocaleDateString()}
