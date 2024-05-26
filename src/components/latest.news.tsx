@@ -19,7 +19,7 @@ export default async function LatestNews() {
         <h2 className="text-2xl font-bold text-[#333333] text-start mb-4">
           Últimas Notícias
         </h2>
-        {blogs.map((news) => (
+        {blogs.slice(0, 4).map((news) => (
           <div
             key={news.id}
             className={`flex flex-col ${
