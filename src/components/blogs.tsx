@@ -34,7 +34,9 @@ export default function Blogs({ blogs }: BlogsProps) {
       {currentPosts.map((blog) => (
         <div
           key={blog.id}
-          className="flex flex-col md:flex-row items-center md:space-x-4 my-4"
+          className={`flex flex-col ${
+            blog.image ? 'md:flex-row' : 'md:flex-col'
+          } items-center md:space-x-4 my-4`}
         >
           <div className="md:w-1/3 w-full">
             {blog.image && (
@@ -50,7 +52,11 @@ export default function Blogs({ blogs }: BlogsProps) {
               />
             )}
           </div>
-          <div className="md:w-2/3 w-full mt-4 md:mt-0">
+          <div
+            className={`${
+              blog.image ? 'md:w-2/3' : 'md:w-full'
+            } w-full text-start`}
+          >
             <p className="text-sm text-[#333333]">
               {blog.author && blog.author.name} -{' '}
               {new Date(blog.updatedAt).toLocaleDateString()}
