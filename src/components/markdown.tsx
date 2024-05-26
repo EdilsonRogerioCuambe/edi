@@ -68,6 +68,17 @@ export default function Markdown({ content }: MarkdownProps) {
               </code>
             )
           },
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+          img({ node, ...props }: any) {
+            return (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                {...props}
+                className="w-full h-full object-cover rounded-lg"
+                alt={props.alt}
+              />
+            )
+          },
         }}
         className="first-letter:text-4xl"
       >
