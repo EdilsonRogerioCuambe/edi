@@ -20,7 +20,7 @@ export default function Blogs({ blogs }: BlogsProps) {
   }, [currentPage])
 
   const sortedBlogs = blogs.sort(
-    (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
   )
 
   const indexOfLastPost = currentPage * postsPerPage
