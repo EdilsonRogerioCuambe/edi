@@ -16,7 +16,7 @@ interface MarkdownProps {
 export default function Markdown({ content }: MarkdownProps) {
   const [copied, setCopied] = useState(false)
   return (
-    <article className="prose prose-pre:p-2 prose-pre:bg-[#333333] prose-ol:text-[#333333] prose-ul:text-[#333333] prose-headings:text-[#333333] max-w-none prose-p:text-[#333333]">
+    <article className="prose prose-pre:p-2 prose-pre:bg-[#333333] prose-code:bg-[#333333] prose-code:rounded prose-code:p-1 prose-code:text-[#f5f5f5] prose-ol:text-[#333333] prose-ul:text-[#333333] prose-strong:text-[#333333] prose-strong:font-semibold prose-headings:text-[#333333] max-w-none prose-p:text-[#333333]">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw]}
