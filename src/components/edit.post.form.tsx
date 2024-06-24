@@ -94,9 +94,17 @@ export default function EditPostForm({ post }: EditPostFormProps) {
         setSelectedTags={setSelectedTags}
       />
       <Editor
+        plugins={[
+          gfm(),
+          breaks(),
+          frontmatter(),
+          gemoji(),
+          highlight(),
+          math(),
+        ]}
+        key="editor"
+        placeholder="Escreva algo..."
         value={content}
-        plugins={[gfm(), breaks(), frontmatter(), gemoji(), highlight(), math()]}
-        onChange={handleContentChange}
       />
       <button
         type="submit"
