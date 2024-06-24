@@ -28,7 +28,9 @@ export default function EditPostForm({ post, tags }: EditPostFormProps) {
   const animatedComponents = makeAnimated()
   const router = useRouter()
   const { data: session } = useSession()
-  const [selectedTags, setSelectedTags] = useState<{ id: string; name: string }[]>([])
+  const [selectedTags, setSelectedTags] = useState<
+    { id: string; name: string }[]
+  >([])
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(
     post.image || null,
   )
