@@ -12,13 +12,15 @@ export default async function Page({ params }: { params: { slug: string } }) {
     },
   })
 
+  const tags = await prisma.tag.findMany()
+
   if (!post) {
     redirect('/404')
   }
 
   return (
     <div>
-      <EditPostForm post={post} />
+      <EditPostForm post={post} tags={tags} />
     </div>
   )
 }

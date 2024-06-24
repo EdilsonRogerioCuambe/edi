@@ -36,7 +36,7 @@
     "framer-motion": "11.0.28",
     "graphql-request": "6.1.0",
     "lucide-react": "0.368.0",
-    "next": "14.2.1",
+    "next": "14.2.4",
     "next-auth": "4.24.7",
     "next-seo": "6.5.0",
     "prisma": "5.14.0",

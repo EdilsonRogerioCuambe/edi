@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import ImageUploader from '@/components/image.uploader'
-import TagLoader from '@/components/tag.loader'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import { Editor } from '@bytemd/react'
@@ -16,17 +15,20 @@ import math from '@bytemd/plugin-math-ssr'
 import 'katex/dist/katex.css'
 import 'highlight.js/styles/default.css'
 import 'bytemd/dist/index.css'
-import TagSelector from '@/components/tag.selector'
 import { Tag, Post } from '@prisma/client'
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated'
 
 interface EditPostFormProps {
   post: Post & { tags: Tag[] }
+  tags: Tag[]
 }
 
-export default function EditPostForm({ post }: EditPostFormProps) {
+export default function EditPostForm({ post, tags }: EditPostFormProps) {
+  const animatedComponents = makeAnimated()
   const router = useRouter()
   const { data: session } = useSession()
-  const [selectedTags, setSelectedTags] = useState<Tag[]>([])
+  const [selectedTags, setSelectedTags] = useState<{ value: string; label: string }[]>([])
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(
     post.image || null,
   )
@@ -54,7 +56,7 @@ export default function EditPostForm({ post }: EditPostFormProps) {
         content,
         shortDesc,
         image: uploadedImageUrl,
-        tags: selectedTags.map((tag) => tag.id),
+        tags: selectedTags.map((tag) => tag.value),
         authorId: session?.user?.id,
       }
       await axios.patch(`/api/admin/blog/${post.slug}`, updatedPost)
@@ -67,12 +69,21 @@ export default function EditPostForm({ post }: EditPostFormProps) {
   }
 
   useEffect(() => {
-    setSelectedTags(post.tags)
+    setSelectedTags(
+      post.tags.map((tag) => ({
+        value: tag.id,
+        label: tag.name,
+      })),
+    )
   }, [post.tags])
+
+  const tagOptions = tags.map((tag) => ({
+    value: tag.id,
+    label: tag.name,
+  }))
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <TagLoader setTags={setSelectedTags} />
       <ImageUploader
         setUploadedImageUrl={setUploadedImageUrl}
         initialImageUrl={uploadedImageUrl}
@@ -82,19 +93,51 @@ export default function EditPostForm({ post }: EditPostFormProps) {
         value={title}
         ref={textareaRef}
         onChange={(e) => setTitle(e.target.value)}
-        className="placeholder:text-4xl h-auto md:placeholder:text-6xl placeholder:font-extrabold font-extrabold placeholder:text-[#333333] text-[#333333] w-full text-4xl md:text-6xl rounded my-4 focus:outline-none overflow-hidden resize-none border-none"
+        className="placeholder:text-4xl h-auto md:placeholder:text-6xl placeholder:font-extrabold font-extrabold placeholder:text-[#333333] text-[#333333] w-full text-4xl md:text-6xl rounded my-10 focus:outline-none overflow-hidden resize-none border-none"
       />
       <textarea
         placeholder="Descrição curta"
         value={shortDesc}
         onChange={(e) => setShortDesc(e.target.value)}
-        rows={5}
-        className="placeholder:text-base md:placeholder:text-lg border-2 border-[#333333] placeholder:font-semibold font-semibold placeholder:text-[#333333] text-[#333333] w-full text-base md:text-lg rounded my-4 focus:outline-none overflow-hidden resize-none p-2"
+        maxLength={200}
+        rows={10}
+        className="placeholder:text-base md:placeholder:text-lg border-2 border-gray-300 font-semibold placeholder:text-[#333333] text-[#333333] w-full text-base md:text-lg rounded my-4 focus:outline-none overflow-hidden resize-none p-2"
       />
-      <TagSelector
-        tags={selectedTags}
-        selectedTags={selectedTags}
-        setSelectedTags={setSelectedTags}
+      <Select
+        isMulti
+        options={tagOptions}
+        value={selectedTags}
+        onChange={(selectOptions) => {
+          setSelectedTags(selectOptions as { value: string; label: string }[])
+        }}
+        closeMenuOnSelect={false}
+        components={animatedComponents}
+        className="basic-multi-select"
+        classNamePrefix="select"
+        placeholder="Selecione categorias..."
+        styles={{
+          control: (provided) => ({
+            ...provided,
+            borderRadius: '0.375rem',
+            padding: '0.5rem',
+            boxShadow: 'none',
+          }),
+          multiValue: (provided) => ({
+            ...provided,
+          }),
+          multiValueLabel: (provided) => ({
+            ...provided,
+          }),
+          multiValueRemove: (provided) => ({
+            ...provided,
+          }),
+          option: (provided, state) => ({
+            ...provided,
+          }),
+          menu: (provided) => ({
+            ...provided,
+          }),
+        }}
       />
       <Editor
         plugins={[
