@@ -6,8 +6,17 @@ import { useSession } from 'next-auth/react'
 import ImageUploader from './image.uploader'
 import axios from 'axios'
 import toast from 'react-hot-toast'
-import Editor from './editor'
 import { Project } from '@prisma/client'
+import { Editor } from '@bytemd/react'
+import gfm from '@bytemd/plugin-gfm'
+import breaks from '@bytemd/plugin-breaks'
+import frontmatter from '@bytemd/plugin-frontmatter'
+import gemoji from '@bytemd/plugin-gemoji'
+import highlight from '@bytemd/plugin-highlight-ssr'
+import math from '@bytemd/plugin-math-ssr'
+import 'katex/dist/katex.css'
+import 'highlight.js/styles/default.css'
+import 'bytemd/dist/index.css'
 
 interface ProjectFormProps {
   project?: Project
@@ -109,7 +118,20 @@ export default function ProjectForm({ project }: ProjectFormProps) {
         }
         className="w-full text-lg rounded my-4 focus:outline-none overflow-hidden resize-none p-2 border-2 border-[#333333] placeholder:font-semibold font-semibold placeholder:text-[#333333] text-[#333333]"
       />
-      <Editor value={description} onChange={handleDescriptionChange} />
+      <Editor
+        plugins={[
+          gfm(),
+          breaks(),
+          frontmatter(),
+          gemoji(),
+          highlight(),
+          math(),
+        ]}
+        key="editor"
+        onChange={handleDescriptionChange}
+        placeholder="Escreva algo..."
+        value={description}
+      />
       <button
         type="submit"
         className="bg-[#333333] text-white rounded px-4 py-2"

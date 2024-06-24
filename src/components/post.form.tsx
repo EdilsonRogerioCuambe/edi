@@ -101,6 +101,8 @@ export default function PostForm({ tags }: PostFormProps) {
         closeMenuOnSelect={false}
         components={animatedComponents}
         className="basic-multi-select"
+        getOptionLabel={(option) => option.name}
+        getOptionValue={(option) => option.id}
         classNamePrefix="select"
         placeholder="Selecione categorias..."
         styles={{

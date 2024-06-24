@@ -106,6 +106,8 @@ export default function EditPostForm({ post, tags }: EditPostFormProps) {
       <Select
         isMulti
         options={tagOptions}
+        getOptionLabel={(option) => option.name}
+        getOptionValue={(option) => option.id}
         value={selectedTags}
         onChange={(selectOptions) => {
           setSelectedTags(selectOptions as { id: string; name: string }[])
