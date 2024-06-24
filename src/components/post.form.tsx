@@ -27,7 +27,7 @@ export default function PostForm({ tags }: PostFormProps) {
   const animatedComponents = makeAnimated()
   const router = useRouter()
   const { data: session } = useSession()
-  const [selectedTags, setSelectedTags] = useState<{ value: string; label: string }[]>([])
+  const [selectedTags, setSelectedTags] = useState<{ id: string; name: string }[]>([])
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null)
   const [title, setTitle] = useState('')
   const [shortDesc, setShortDesc] = useState('')
@@ -54,7 +54,7 @@ export default function PostForm({ tags }: PostFormProps) {
         shortDesc,
         image: uploadedImageUrl,
         email: session?.user?.email,
-        tags: selectedTags.map((tag) => tag.value),
+        tags: selectedTags.map((tag) => tag.id),
       }
       const response = await axios.post('/api/admin/blogs', postData)
       toast.success('Post criado com sucesso')
@@ -66,8 +66,8 @@ export default function PostForm({ tags }: PostFormProps) {
   }
 
   const tagOptions = tags.map((tag) => ({
-    value: tag.id,
-    label: tag.name,
+    id: tag.id,
+    name: tag.name,
   }))
 
   return (
@@ -96,7 +96,7 @@ export default function PostForm({ tags }: PostFormProps) {
         options={tagOptions}
         value={selectedTags}
         onChange={(selectOptions) => {
-          setSelectedTags(selectOptions as { value: string; label: string }[])
+          setSelectedTags(selectOptions as { id: string; name: string }[])
         }}
         closeMenuOnSelect={false}
         components={animatedComponents}

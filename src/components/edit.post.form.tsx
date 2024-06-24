@@ -28,7 +28,7 @@ export default function EditPostForm({ post, tags }: EditPostFormProps) {
   const animatedComponents = makeAnimated()
   const router = useRouter()
   const { data: session } = useSession()
-  const [selectedTags, setSelectedTags] = useState<{ value: string; label: string }[]>([])
+  const [selectedTags, setSelectedTags] = useState<{ id: string; name: string }[]>([])
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(
     post.image || null,
   )
@@ -56,7 +56,7 @@ export default function EditPostForm({ post, tags }: EditPostFormProps) {
         content,
         shortDesc,
         image: uploadedImageUrl,
-        tags: selectedTags.map((tag) => tag.value),
+        tags: selectedTags.map((tag) => tag.id),
         authorId: session?.user?.id,
       }
       await axios.patch(`/api/admin/blog/${post.slug}`, updatedPost)
@@ -71,15 +71,15 @@ export default function EditPostForm({ post, tags }: EditPostFormProps) {
   useEffect(() => {
     setSelectedTags(
       post.tags.map((tag) => ({
-        value: tag.id,
-        label: tag.name,
+        id: tag.id,
+        name: tag.name,
       })),
     )
   }, [post.tags])
 
   const tagOptions = tags.map((tag) => ({
-    value: tag.id,
-    label: tag.name,
+    id: tag.id,
+    name: tag.name,
   }))
 
   return (
@@ -108,7 +108,7 @@ export default function EditPostForm({ post, tags }: EditPostFormProps) {
         options={tagOptions}
         value={selectedTags}
         onChange={(selectOptions) => {
-          setSelectedTags(selectOptions as { value: string; label: string }[])
+          setSelectedTags(selectOptions as { id: string; name: string }[])
         }}
         closeMenuOnSelect={false}
         components={animatedComponents}
