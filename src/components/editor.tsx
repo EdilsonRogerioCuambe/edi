@@ -10,16 +10,6 @@ import {
   AiOutlinePicture,
 } from 'react-icons/ai'
 import { Loader } from 'lucide-react'
-import { Editor } from '@bytemd/react'
-import gfm from '@bytemd/plugin-gfm'
-import breaks from '@bytemd/plugin-breaks'
-import frontmatter from '@bytemd/plugin-frontmatter'
-import gemoji from '@bytemd/plugin-gemoji'
-import highlight from '@bytemd/plugin-highlight-ssr'
-import math from '@bytemd/plugin-math-ssr'
-import 'katex/dist/katex.css'
-import 'highlight.js/styles/default.css'
-import 'bytemd/dist/index.css'
 
 interface EditorProps {
   value: string
