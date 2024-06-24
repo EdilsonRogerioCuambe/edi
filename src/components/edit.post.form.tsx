@@ -135,6 +135,7 @@ export default function EditPostForm({ post, tags }: EditPostFormProps) {
           multiValueRemove: (provided) => ({
             ...provided,
           }),
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           option: (provided, state) => ({
             ...provided,
           }),

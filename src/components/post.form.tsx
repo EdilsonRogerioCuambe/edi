@@ -27,7 +27,9 @@ export default function PostForm({ tags }: PostFormProps) {
   const animatedComponents = makeAnimated()
   const router = useRouter()
   const { data: session } = useSession()
-  const [selectedTags, setSelectedTags] = useState<{ id: string; name: string }[]>([])
+  const [selectedTags, setSelectedTags] = useState<
+    { id: string; name: string }[]
+  >([])
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null)
   const [title, setTitle] = useState('')
   const [shortDesc, setShortDesc] = useState('')
@@ -121,6 +123,7 @@ export default function PostForm({ tags }: PostFormProps) {
           multiValueRemove: (provided) => ({
             ...provided,
           }),
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           option: (provided, state) => ({
             ...provided,
           }),
