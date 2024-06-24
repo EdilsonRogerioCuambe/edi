@@ -103,6 +103,7 @@ export default function EditPostForm({ post }: EditPostFormProps) {
           math(),
         ]}
         key="editor"
+        onChange={handleContentChange}
         placeholder="Escreva algo..."
         value={content}
       />
