@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button'
 import axios from 'axios'
 import type { Post } from '@prisma/client'
 import { motion } from 'framer-motion'
-import { ClipLoader, PulseLoader } from 'react-spinners'
+import { PulseLoader } from 'react-spinners'
 
 export default function Navbar() {
   const [blur, setBlur] = useState(false)
