@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   },
   description: 'Junte-se a mim na jornada para dominar as habilidades de TI.',
   creator: 'Edilson Rogério Cuambe',
-  robots: { index: false, follow: false },
+  robots: { index: true, follow: true },
   openGraph: {
     type: 'website',
     locale: 'pt_BR',

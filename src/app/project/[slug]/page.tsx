@@ -44,11 +44,11 @@ export async function generateMetadata(
       description: project.description,
     },
     robots: {
-      index: false,
+      index: true,
       follow: true,
       googleBot: {
         index: true,
-        follow: false,
+        follow: true,
         noimageindex: true,
         'max-video-preview': -1,
         'max-image-preview': 'large',
