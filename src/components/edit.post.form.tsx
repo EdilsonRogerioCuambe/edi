@@ -6,9 +6,15 @@ import ImageUploader from '@/components/image.uploader'
 import TagLoader from '@/components/tag.loader'
 import axios from 'axios'
 import toast from 'react-hot-toast'
-import { Post, Tag } from '@prisma/client'
-import Editor from '@/components/editor'
+import { Editor } from '@bytemd/react'
+import gfm from '@bytemd/plugin-gfm'
+import breaks from '@bytemd/plugin-breaks'
+import frontmatter from '@bytemd/plugin-frontmatter'
+import gemoji from '@bytemd/plugin-gemoji'
+import highlight from '@bytemd/plugin-highlight-ssr'
+import math from '@bytemd/plugin-math-ssr'
 import TagSelector from '@/components/tag.selector'
+import { Tag, Post } from '@prisma/client'
 
 interface EditPostFormProps {
   post: Post & { tags: Tag[] }
@@ -87,7 +93,11 @@ export default function EditPostForm({ post }: EditPostFormProps) {
         selectedTags={selectedTags}
         setSelectedTags={setSelectedTags}
       />
-      <Editor value={content} onChange={handleContentChange} />
+      <Editor
+        value={content}
+        plugins={[gfm(), breaks(), frontmatter(), gemoji(), highlight(), math()]}
+        onChange={handleContentChange}
+      />
       <button
         type="submit"
         className="bg-[#333333] text-white rounded px-4 py-2 w-full sm:w-auto"
