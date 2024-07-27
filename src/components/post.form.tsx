@@ -18,6 +18,8 @@ import 'highlight.js/styles/default.css'
 import 'bytemd/dist/index.css'
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
+import { ClipLoader } from 'react-spinners'
+import { Button } from './ui/button'
 
 interface PostFormProps {
   tags: Tag[]
@@ -34,6 +36,7 @@ export default function PostForm({ tags }: PostFormProps) {
   const [title, setTitle] = useState('')
   const [shortDesc, setShortDesc] = useState('')
   const [content, setContent] = useState('')
+  const [loading, setLoading] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
@@ -49,7 +52,13 @@ export default function PostForm({ tags }: PostFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setLoading(true)
     try {
+      if (!title || !content || !shortDesc || !uploadedImageUrl) {
+        toast.error('Preencha todos os campos')
+        return
+      }
+
       const postData = {
         title,
         content,
@@ -64,6 +73,8 @@ export default function PostForm({ tags }: PostFormProps) {
     } catch (error) {
       console.error(error)
       toast.error('Erro ao criar post')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -146,12 +157,16 @@ export default function PostForm({ tags }: PostFormProps) {
         placeholder="Escreva algo..."
         value={content}
       />
-      <button
+      <Button
         type="submit"
         className="bg-[#333333] text-white rounded px-4 py-2 w-full sm:w-auto"
       >
-        Criar post
-      </button>
+        {loading ? (
+          <ClipLoader color="#fff" loading={loading} size={25} />
+        ) : (
+          'Criar post'
+        )}
+      </Button>
     </form>
   )
 }
