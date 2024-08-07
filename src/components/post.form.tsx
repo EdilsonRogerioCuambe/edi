@@ -150,6 +150,17 @@ export default function PostForm({ tags }: PostFormProps) {
             borderRadius: '0.375rem',
             backgroundColor: theme === 'light' ? '#fff' : '#333333',
           }),
+          option: (provided, state) => ({
+            ...provided,
+            backgroundColor: state.isFocused
+              ? theme === 'light'
+                ? '#eaeaea'
+                : '#444444'
+              : theme === 'light'
+                ? '#fff'
+                : '#333333',
+            color: theme === 'light' ? '#333333' : '#f5f5f5',
+          }),
         }}
       />
       <Editor
