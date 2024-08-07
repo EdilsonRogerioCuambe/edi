@@ -1,5 +1,5 @@
 'use client'
-import { Project } from '@prisma/client'
+import { Post } from '@prisma/client'
 import {
   Image as LucidImageIcon,
   ArrowUpDown,
@@ -15,7 +15,7 @@ import toast from 'react-hot-toast'
 
 import { cn } from '@/lib/utils'
 
-export const projectColumns: ColumnDef<Project>[] = [
+export const blogColumns: ColumnDef<Post>[] = [
   {
     accessorKey: 'image',
     header: 'Imagem',
@@ -72,7 +72,7 @@ export const projectColumns: ColumnDef<Project>[] = [
       const { createdAt } = row.original
 
       return (
-        <span className="text-[#333333]">
+        <span className="text-[#333333] dark:text-[#f5f5f5]">
           {new Date(createdAt).toLocaleDateString()}
         </span>
       )
@@ -104,7 +104,7 @@ export const projectColumns: ColumnDef<Project>[] = [
 
       const handleDelete = async () => {
         try {
-          await axios.delete(`/api/admin/project/${slug}`)
+          await axios.delete(`/api/admin/blog/${slug}`)
           toast.success('Post deletado com sucesso')
           window.location.reload()
         } catch (error) {
@@ -115,8 +115,8 @@ export const projectColumns: ColumnDef<Project>[] = [
 
       return (
         <div className="flex items-center space-x-2">
-          <Link href={`/admin/project/${slug}`}>
-            <Pencil className="w-5 h-5" />
+          <Link href={`/admin/blog/${slug}`}>
+            <Pencil className="w-5 h-5 text-[#333333] dark:text-[#f5f5f5]" />
           </Link>
           <Button
             variant="ghost"

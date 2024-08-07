@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Source_Code_Pro as SourceCode } from 'next/font/google'
+import { Fira_Code as FiraCode } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
 import Script from 'next/script'
 import './globals.css'
@@ -9,7 +9,7 @@ import GoogleAnalytics from '@/components/google.analytics'
 import CookieBanner from '@/components/cookie.banner'
 import Providers from '@/lib/providers'
 
-const code = SourceCode({ subsets: ['latin'] })
+const firacode = FiraCode({ subsets: ['latin'] })
 
 export const dynamic = 'force-dynamic'
 
@@ -59,7 +59,9 @@ export default function RootLayout({
             strategy="lazyOnload"
           />
         </head>
-        <body className={`${code.className} bg-[##F5F5F5] text-[#333333]`}>
+        <body
+          className={`${firacode.className} text-[#333333] g-[#f5f5f5] dark:bg-zinc-800 dark:text-[#f5f5f5]`}
+        >
           <GoogleAnalytics GOOGLE_MEASUREMENT_ID={GOOGLE_ANALYTICS} />
           <Navbar />
           <Toaster position="top-center" />

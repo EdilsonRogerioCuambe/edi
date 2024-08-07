@@ -108,7 +108,7 @@ export default function TechStack() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-4">
-      <h2 className="text-2xl font-bold text-[#333333] text-start mb-4">
+      <h2 className="text-2xl font-bold text-[#333333] dark:text-[#f5f5f5] text-start mb-4">
         Tech Stack
       </h2>
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -126,7 +126,7 @@ export default function TechStack() {
               boxShadow: '0px 0px 12px rgba(51, 51, 51, 0.6)',
             }}
             transition={{ type: 'spring', stiffness: 300, damping: 10 }}
-            className="flex flex-col items-center justify-center p-4 bg-[#333333] shadow-md rounded-md cursor-pointer hover:bg-[#3d3d3d] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="flex flex-col items-center justify-center p-4 bg-[#333333] dark:bg-zinc-700 shadow-md rounded-md cursor-pointer hover:bg-[#3d3d3d] dark:hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             {tech.icon}
             <p className="mt-2 text-[#f5f5f5] text-center">{tech.name}</p>

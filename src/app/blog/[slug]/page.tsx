@@ -111,7 +111,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
             </div>
             <div className="flex items-center justify-between my-4">
               <div className="flex items-center space-x-4">
-                <div className="relative w-10 h-10 overflow-hidden rounded-full bg-gray-200">
+                <div className="relative w-10 h-10 overflow-hidden rounded-full bg-gray-200 dark:bg-zinc-800">
                   {blog.author && blog.author.image && (
                     <Image
                       src={blog.author.image}
@@ -122,7 +122,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
                     />
                   )}
                 </div>
-                <div className="text-[#333333]">
+                <div className="text-[#333333] dark:text-[#f5f5f5]">
                   <p className="text-md">{blog.author?.name}</p>
                   <div className="flex items-center space-x-2">
                     <p className="text-sm">

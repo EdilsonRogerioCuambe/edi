@@ -13,7 +13,7 @@ export default function Hero() {
   }
 
   return (
-    <div className="text-[#333333] pt-20 flex items-center md:min-h-screen justify-center w-full">
+    <div className="text-[#333333] dark:text-[#f5f5f5] pt-20 flex items-center md:min-h-screen justify-center w-full">
       <motion.div
         initial="hidden"
         animate="enter"
@@ -23,7 +23,7 @@ export default function Hero() {
         className="flex flex-col md:flex-row max-w-5xl mx-auto p-4 md:space-x-4 space-y-2 md:space-y-0 items-center justify-center w-full"
       >
         <motion.div
-          className="flex-shrink-0 hidden cursor-pointer md:flex-shrink rounded-lg border-2 border-[#f5f5f5] relative justify-center items-center md:flex h-full w-full md:w-1/3 overflow-hidden"
+          className="flex-shrink-0 hidden cursor-pointer md:flex-shrink rounded-lg border-2 border-[#f5f5f5] dark:border-[#333333] relative justify-center items-center md:flex h-full w-full md:w-1/3 overflow-hidden"
           whileHover={{ rotate: 2, transition: { duration: 0.5 } }}
           whileTap={{ rotate: -2, transition: { duration: 0.5 } }}
         >

@@ -16,7 +16,7 @@ interface MarkdownProps {
 export default function Markdown({ content }: MarkdownProps) {
   const [copied, setCopied] = useState(false)
   return (
-    <article className="prose prose-pre:p-2 prose-pre:bg-[#333333] prose-code:bg-[#333333] prose-code:rounded prose-code:p-1 prose-code:text-[#f5f5f5] prose-ol:text-[#333333] prose-ul:text-[#333333] prose-strong:text-[#333333] prose-strong:font-semibold prose-headings:text-[#333333] max-w-none prose-p:text-[#333333]">
+    <article className="prose prose-pre:p-2 prose-pre:bg-[#333333] dark:prose-pre:bg-[#f5f5f5] prose-code:bg-[#333333] dark:prose-code:bg-[#f5f5f5] prose-code:rounded prose-code:p-1 prose-code:text-[#f5f5f5] dark:prose-code:text-[#333333] prose-ol:text-[#333333] dark:prose-ol:text-[#f5f5f5] prose-ul:text-[#333333] dark:prose-ul:text-[#f5f5f5] prose-strong:text-[#333333] dark:prose-strong:text-[#f5f5f5] prose-strong:font-semibold prose-headings:text-[#333333] dark:prose-headings:text-[#f5f5f5] max-w-none prose-p:text-[#333333] dark:prose-p:text-[#f5f5f5]">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw]}
@@ -42,7 +42,7 @@ export default function Markdown({ content }: MarkdownProps) {
                   <button
                     type="button"
                     title="Copiar"
-                    className="absolute top-0 right-0 bg-[#121214] items-center rounded-lg p-2"
+                    className="absolute top-0 right-0 bg-[#121214] dark:bg-[#e5e5e5] items-center rounded-lg p-2"
                     aria-label="Copy"
                   >
                     {copied ? (

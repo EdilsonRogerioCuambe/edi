@@ -1,16 +1,16 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Menu, X, GitPullRequestArrow, Search } from 'lucide-react'
+import { Menu, X, GitPullRequestArrow, Search, Sun, Moon } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import SignInButton from './sign.in.button'
-import { cn } from '@/lib/utils'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import axios from 'axios'
 import type { Post } from '@prisma/client'
 import { motion } from 'framer-motion'
 import { PulseLoader } from 'react-spinners'
+import { useTheme } from '@/lib/theme.context'
 
 export default function Navbar() {
   const [blur, setBlur] = useState(false)
@@ -20,6 +20,7 @@ export default function Navbar() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const pathname = usePathname()
+  const { theme, toggleTheme } = useTheme()
 
   const handleBlur = () => {
     const offset = window.scrollY
@@ -63,7 +64,9 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed inset-x-0 top-0 z-10 transition-all duration-300 ease-in-out h-20 ${
-        blur ? 'bg-white/90 shadow-md backdrop-blur-md' : 'bg-white/90'
+        blur
+          ? 'bg-white/90 shadow-md backdrop-blur-md dark:bg-zinc-800/90'
+          : 'bg-white/90 dark:bg-zinc-800/90'
       }`}
     >
       <div className="max-w-5xl mx-auto px-4 relative">
@@ -82,19 +85,19 @@ export default function Navbar() {
           <div className="md:flex md:space-x-4 md:items-center md:justify-center hidden">
             <Link
               href="/"
-              className={`p-2 ${pathname === '/' ? 'border-b-2 border-[#333333]' : ''}`}
+              className={`p-2 ${pathname === '/' ? 'border-b-2 border-[#333333] dark:border-[#f5f5f5]' : ''}`}
             >
               Home
             </Link>
             <Link
               href="/blog"
-              className={`p-2 ${pathname === '/blog' ? 'border-b-2 border-[#333333]' : ''}`}
+              className={`p-2 ${pathname === '/blog' ? 'border-b-2 border-[#333333] dark:border-[#f5f5f5]' : ''}`}
             >
               Blog
             </Link>
             <Link
               href="/projects"
-              className={`p-2 ${pathname === '/projects' ? 'border-b-2 border-[#333333]' : ''}`}
+              className={`p-2 ${pathname === '/projects' ? 'border-b-2 border-[#333333] dark:border-[#f5f5f5]' : ''}`}
             >
               Projetos
             </Link>
@@ -108,14 +111,20 @@ export default function Navbar() {
               />
               <Button
                 type="submit"
-                className="p-2 ml-2 border-2 border-[#333333] text-[#333333] bg-white rounded transition-all duration-300 ease-in-out hover:bg-[#333333] hover:text-[#f5f5f5]"
+                className="p-2 ml-2 border-2 border-[#333333] text-[#333333] dark:border-[#f5f5f5] dark:text-[#f5f5f5] bg-white dark:bg-gray-900 rounded transition-all duration-300 ease-in-out hover:bg-[#333333] dark:hover:bg-[#f5f5f5] hover:text-[#f5f5f5] dark:hover:text-[#333333]"
               >
                 <Search size={20} />
               </Button>
             </form>
             <SignInButton />
+            <button
+              onClick={toggleTheme}
+              className="p-2 ml-4 border-2 border-[#333333] text-[#333333] dark:border-[#f5f5f5] dark:text-[#f5f5f5] bg-white dark:bg-gray-900 rounded transition-all duration-300 ease-in-out hover:bg-[#333333] dark:hover:bg-[#f5f5f5] hover:text-[#f5f5f5] dark:hover:text-[#333333]"
+            >
+              {theme === 'light' ? <Moon size={24} /> : <Sun size={24} />}
+            </button>
           </div>
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center">
             <button
               type="button"
               title="Menu"
@@ -124,79 +133,12 @@ export default function Navbar() {
             >
               <Menu size={24} />
             </button>
-          </div>
-
-          <div
-            className={cn(
-              'fixed inset-0 z-10 bg-white transition-all duration-300 ease-in-out',
-              {
-                'translate-x-full': !open,
-                'translate-x-0': open,
-              },
-              blur ? 'bg-white' : 'bg-white',
-            )}
-          >
-            <div className="flex justify-between items-center p-4">
-              <Link
-                href="/"
-                className="text-xl flex items-center uppercase font-semibold font-mono"
-              >
-                <span className="mr-2">
-                  <GitPullRequestArrow size={20} />
-                </span>
-                EDILSON
-              </Link>
-              <button
-                type="button"
-                title="Close"
-                onClick={() => setOpen(false)}
-                className="p-2"
-              >
-                <X size={24} />
-              </button>
-            </div>
-            <div className="flex flex-col space-y-4 items-center justify-center h-screen bg-white">
-              <Link
-                href="/"
-                className={`p-2 ${pathname === '/' ? 'border-b-2 border-[#333333]' : ''}`}
-                onClick={() => setOpen(false)}
-              >
-                Home
-              </Link>
-              <Link
-                href="/blog"
-                className={`p-2 ${pathname === '/blog' ? 'border-b-2 border-[#333333]' : ''}`}
-                onClick={() => setOpen(false)}
-              >
-                Blog
-              </Link>
-              <Link
-                href="/projects"
-                className={`p-2 ${pathname === '/projects' ? 'border-b-2 border-[#333333]' : ''}`}
-                onClick={() => setOpen(false)}
-              >
-                Projetos
-              </Link>
-              <form
-                onSubmit={handleSearch}
-                className="flex flex-col items-center"
-              >
-                <Input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Pesquisar blogs"
-                  className="p-2 border rounded"
-                />
-                <Button
-                  type="submit"
-                  className="p-2 mt-2 border-2 border-[#333333] text-[#333333] bg-white rounded transition-all duration-300 ease-in-out hover:bg-[#333333] hover:text-[#f5f5f5]"
-                >
-                  <Search size={20} />
-                </Button>
-              </form>
-              <SignInButton />
-            </div>
+            <button
+              onClick={toggleTheme}
+              className={`p-2 ml-4 border-2 border-[#333333] text-[#333333] dark:border-[#f5f5f5] dark:text-[#f5f5f5] bg-white dark:bg-zinc-900 rounded transition-all duration-300 ease-in-out hover:bg-[#333333] dark:hover:bg-[#f5f5f5] hover:text-[#f5f5f5] dark:hover:text-[#333333]`}
+            >
+              {theme === 'light' ? <Moon size={24} /> : <Sun size={24} />}
+            </button>
           </div>
         </div>
       </div>
@@ -205,16 +147,16 @@ export default function Navbar() {
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -50 }}
-          className="fixed inset-0 z-20 flex items-center justify-center bg-black bg-opacity-50"
+          className="fixed inset-0 z-20 flex items-center justify-center bg-zinc-950 bg-opacity-50"
         >
-          <div className="bg-white rounded-lg p-6 w-11/12 md:w-1/2 lg:w-1/3">
+          <div className="bg-white dark:bg-zinc-800 rounded-lg p-6 w-11/12 md:w-1/2 lg:w-1/3">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold">Resultados da Pesquisa</h2>
               <Button
                 onClick={closeModal}
-                className="text-red-500 hover:text-red-600 bg-white hover:bg-red-100 p-2 rounded-full transition-all duration-300 ease-in-out"
+                className="text-red-500 hover:text-red-600 bg-white dark:bg-zinc-800 hover:bg-red-100 dark:hover:bg-red-900 p-2 rounded-full transition-all duration-300 ease-in-out"
               >
-                <X size={24} />
+                <X size={24} className="text-red-500" />
               </Button>
             </div>
             {isLoading ? (
@@ -226,11 +168,11 @@ export default function Navbar() {
                 {searchResults.map((blog) => (
                   <li
                     key={blog.id}
-                    className="my-2 p-2 bg-[#f5f5f5] rounded-lg"
+                    className="my-2 p-2 bg-[#f5f5f5] dark:bg-zinc-700 rounded-lg"
                   >
                     <Link
                       href={`/blog/${blog.slug}`}
-                      className="text-[#333333] hover:underline"
+                      className="text-[#333333] dark:text-[#f5f5f5] hover:underline"
                     >
                       {blog.title}
                     </Link>
@@ -238,7 +180,9 @@ export default function Navbar() {
                 ))}
               </ul>
             ) : (
-              <p className="text-gray-600">Nenhum resultado encontrado</p>
+              <p className="text-gray-600 dark:text-gray-300">
+                Nenhum resultado encontrado
+              </p>
             )}
           </div>
         </motion.div>

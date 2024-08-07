@@ -57,7 +57,7 @@ export default function Blogs({ blogs }: BlogsProps) {
               blog.image ? 'md:w-2/3' : 'md:w-full'
             } w-full text-start`}
           >
-            <p className="text-sm my-1 text-[#333333]">
+            <p className="text-sm my-1 text-[#333333] dark:text-[#f5f5f5]">
               {blog.author && blog.author.name} -{' '}
               {new Date(blog.updatedAt).toLocaleDateString()}
             </p>
@@ -65,14 +65,18 @@ export default function Blogs({ blogs }: BlogsProps) {
               href={`/blog/${blog.slug}`}
               className="hover:underline transition-all duration-300 ease-in-out"
             >
-              <h3 className="text-xl font-bold mb-2">{blog.title}</h3>
+              <h3 className="text-xl font-bold mb-2 text-[#333333] dark:text-[#f5f5f5]">
+                {blog.title}
+              </h3>
             </Link>
-            <p className="mb-4">{blog.shortDesc.slice(0, 175)}...</p>
+            <p className="mb-4 text-[#333333] dark:text-[#f5f5f5]">
+              {blog.shortDesc.slice(0, 175)}...
+            </p>
             <div className="flex flex-wrap items-center gap-2">
               {blog.tags.map((tag) => (
                 <span
                   key={tag.id}
-                  className="text-sm text-[#333333] border-2 px-2 py-1 rounded-lg border-[#333333]"
+                  className="text-sm text-[#333333] dark:text-[#f5f5f5] border-2 px-2 py-1 rounded-lg border-[#333333] dark:border-[#f5f5f5]"
                 >
                   {tag.name}
                 </span>
@@ -91,8 +95,10 @@ export default function Blogs({ blogs }: BlogsProps) {
                 type="button"
                 title="Ir para a página"
                 onClick={() => paginate(index + 1)}
-                className={`px-4 py-2 rounded-lg border-2 border-[#333333] ${
-                  currentPage === index + 1 ? 'bg-[#333333] text-white' : ''
+                className={`px-4 py-2 rounded-lg border-2 border-[#333333] dark:border-[#f5f5f5] ${
+                  currentPage === index + 1
+                    ? 'bg-[#333333] text-white dark:bg-[#f5f5f5] dark:text-[#333333]'
+                    : 'text-[#333333] dark:text-[#f5f5f5]'
                 }`}
               >
                 {index + 1}
