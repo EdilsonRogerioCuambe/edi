@@ -18,6 +18,7 @@ import 'bytemd/dist/index.css'
 import { Tag, Post } from '@prisma/client'
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
+import { ClipLoader } from 'react-spinners'
 
 interface EditPostFormProps {
   post: Post & { tags: Tag[] }
@@ -34,6 +35,7 @@ export default function EditPostForm({ post, tags }: EditPostFormProps) {
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(
     post.image || null,
   )
+  const [loading, setLoading] = useState(false)
   const [title, setTitle] = useState(post.title)
   const [shortDesc, setShortDesc] = useState(post.shortDesc)
   const [content, setContent] = useState(post.content)
@@ -53,6 +55,11 @@ export default function EditPostForm({ post, tags }: EditPostFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
+      if (!title || !content || !shortDesc || !uploadedImageUrl) {
+        toast.error('Preencha todos os campos')
+        return
+      }
+      setLoading(true)
       const updatedPost = {
         title,
         content,
@@ -67,6 +74,8 @@ export default function EditPostForm({ post, tags }: EditPostFormProps) {
     } catch (error) {
       console.error(error)
       toast.error('Erro ao atualizar post')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -95,7 +104,7 @@ export default function EditPostForm({ post, tags }: EditPostFormProps) {
         value={title}
         ref={textareaRef}
         onChange={(e) => setTitle(e.target.value)}
-        className="placeholder:text-4xl h-auto md:placeholder:text-6xl placeholder:font-extrabold font-extrabold placeholder:text-[#333333] text-[#333333] w-full text-4xl md:text-6xl rounded my-10 focus:outline-none overflow-hidden resize-none border-none"
+        className="placeholder:text-4xl h-auto md:placeholder:text-6xl placeholder:font-extrabold font-extrabold placeholder:text-[#333333] dark:placeholder:text-[#f5f5f5] text-[#333333] dark:text-[#f5f5f5] w-full text-4xl md:text-6xl rounded my-10 focus:outline-none overflow-hidden resize-none border-none bg-transparent"
       />
       <textarea
         placeholder="Descrição curta"
@@ -103,7 +112,7 @@ export default function EditPostForm({ post, tags }: EditPostFormProps) {
         onChange={(e) => setShortDesc(e.target.value)}
         maxLength={200}
         rows={10}
-        className="placeholder:text-base md:placeholder:text-lg border-2 border-gray-300 font-semibold placeholder:text-[#333333] text-[#333333] w-full text-base md:text-lg rounded my-4 focus:outline-none overflow-hidden resize-none p-2"
+        className="placeholder:text-base md:placeholder:text-lg border-2 border-gray-300 dark:border-gray-600 font-semibold placeholder:text-[#333333] dark:placeholder:text-[#f5f5f5] text-[#333333] dark:text-[#f5f5f5] w-full text-base md:text-lg rounded my-4 focus:outline-none overflow-hidden resize-none p-2 bg-transparent"
       />
       <Select
         isMulti
@@ -125,22 +134,33 @@ export default function EditPostForm({ post, tags }: EditPostFormProps) {
             borderRadius: '0.375rem',
             padding: '0.5rem',
             boxShadow: 'none',
+            backgroundColor: 'transparent',
+            borderColor: '#333333',
+            color: '#333333',
           }),
           multiValue: (provided) => ({
             ...provided,
+            backgroundColor: '#333333',
+            color: '#f5f5f5',
           }),
           multiValueLabel: (provided) => ({
             ...provided,
+            color: '#f5f5f5',
           }),
           multiValueRemove: (provided) => ({
             ...provided,
+            color: '#f5f5f5',
           }),
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           option: (provided, state) => ({
             ...provided,
+            backgroundColor: 'transparent',
+            color: '#333333',
           }),
           menu: (provided) => ({
             ...provided,
+            backgroundColor: 'transparent',
+            color: '#333333',
           }),
         }}
       />
@@ -160,9 +180,13 @@ export default function EditPostForm({ post, tags }: EditPostFormProps) {
       />
       <button
         type="submit"
-        className="bg-[#333333] text-white rounded px-4 py-2 w-full sm:w-auto"
+        className="bg-[#333333] dark:bg-[#f5f5f5] text-white dark:text-[#333333] rounded px-4 py-2 w-full sm:w-auto"
       >
-        Atualizar post
+        {loading ? (
+          <ClipLoader color="#fff" loading={loading} size={25} />
+        ) : (
+          'Atualizar post'
+        )}
       </button>
     </form>
   )

@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import Markdown from '@/components/markdown'
+import { useState, useEffect } from 'react'
+import { ClipLoader } from 'react-spinners'
 
 export const metadata: Metadata = {
   title: {
@@ -71,9 +73,23 @@ Ao usar nosso blog, você concorda com a nossa política de privacidade.
 `
 
 export default function Page() {
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    // Simulating a fetch or some asynchronous operation
+    const timer = setTimeout(() => setLoading(false), 2000)
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
-    <div className="max-w-5xl px-4 mx-auto pt-20 text-[#333333]">
-      <Markdown content={content} />
+    <div className="max-w-5xl px-4 mx-auto pt-20 text-[#333333] dark:text-[#f5f5f5]">
+      {loading ? (
+        <div className="flex justify-center items-center h-screen">
+          <ClipLoader color="#333333" loading={loading} size={50} />
+        </div>
+      ) : (
+        <Markdown content={content} />
+      )}
     </div>
   )
 }

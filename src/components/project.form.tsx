@@ -17,6 +17,7 @@ import math from '@bytemd/plugin-math-ssr'
 import 'katex/dist/katex.css'
 import 'highlight.js/styles/default.css'
 import 'bytemd/dist/index.css'
+import { ClipLoader } from 'react-spinners'
 
 interface ProjectFormProps {
   project?: Project
@@ -34,6 +35,7 @@ export default function ProjectForm({ project }: ProjectFormProps) {
   const [github, setGithub] = useState(project?.github || '')
   const [demo, setDemo] = useState(project?.demo || '')
   const [languages, setLanguages] = useState<string[]>(project?.languages || [])
+  const [loading, setLoading] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
@@ -49,6 +51,7 @@ export default function ProjectForm({ project }: ProjectFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const projectData = {
         title,
@@ -75,11 +78,13 @@ export default function ProjectForm({ project }: ProjectFormProps) {
     } catch (error) {
       console.error(error)
       toast.error(`Erro ao ${project ? 'atualizar' : 'criar'} projeto`)
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="space-y-4">
       <ImageUploader
         setUploadedImageUrl={setUploadedImageUrl}
         initialImageUrl={uploadedImageUrl}
@@ -89,26 +94,26 @@ export default function ProjectForm({ project }: ProjectFormProps) {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         ref={textareaRef}
-        className="placeholder:text-6xl h-auto placeholder:font-extrabold font-extrabold placeholder:text-[#333333] text-[#333333] w-full text-6xl rounded my-4 focus:outline-none overflow-hidden resize-none border-none"
+        className="placeholder:text-6xl h-auto placeholder:font-extrabold font-extrabold placeholder:text-[#333333] dark:placeholder:text-[#f5f5f5] text-[#333333] dark:text-[#f5f5f5] w-full text-6xl rounded my-4 focus:outline-none overflow-hidden resize-none border-none bg-transparent"
       />
       <textarea
         placeholder="Descrição curta"
         value={shortDesc}
         onChange={(e) => setShortDesc(e.target.value)}
         rows={3}
-        className="placeholder:text-lg border-2 border-[#333333] font-semibold placeholder:text-[#333333] text-[#333333] w-full text-lg rounded my-4 focus:outline-none overflow-hidden resize-none p-2"
+        className="placeholder:text-lg border-2 border-[#333333] dark:border-[#f5f5f5] font-semibold placeholder:text-[#333333] dark:placeholder:text-[#f5f5f5] text-[#333333] dark:text-[#f5f5f5] w-full text-lg rounded my-4 focus:outline-none overflow-hidden resize-none p-2 bg-transparent"
       />
       <input
         placeholder="GitHub URL"
         value={github}
         onChange={(e) => setGithub(e.target.value)}
-        className="w-full text-lg rounded my-4 focus:outline-none overflow-hidden resize-none p-2 border-2 border-[#333333] placeholder:font-semibold font-semibold placeholder:text-[#333333] text-[#333333]"
+        className="w-full text-lg rounded my-4 focus:outline-none overflow-hidden resize-none p-2 border-2 border-[#333333] dark:border-[#f5f5f5] placeholder:font-semibold font-semibold placeholder:text-[#333333] dark:placeholder:text-[#f5f5f5] text-[#333333] dark:text-[#f5f5f5] bg-transparent"
       />
       <input
         placeholder="Demo URL"
         value={demo}
         onChange={(e) => setDemo(e.target.value)}
-        className="w-full text-lg rounded my-4 focus:outline-none overflow-hidden resize-none p-2 border-2 border-[#333333] placeholder:font-semibold font-semibold placeholder:text-[#333333] text-[#333333]"
+        className="w-full text-lg rounded my-4 focus:outline-none overflow-hidden resize-none p-2 border-2 border-[#333333] dark:border-[#f5f5f5] placeholder:font-semibold font-semibold placeholder:text-[#333333] dark:placeholder:text-[#f5f5f5] text-[#333333] dark:text-[#f5f5f5] bg-transparent"
       />
       <input
         placeholder="Linguagens (separadas por vírgula)"
@@ -116,7 +121,7 @@ export default function ProjectForm({ project }: ProjectFormProps) {
         onChange={(e) =>
           setLanguages(e.target.value.split(',').map((lang) => lang.trim()))
         }
-        className="w-full text-lg rounded my-4 focus:outline-none overflow-hidden resize-none p-2 border-2 border-[#333333] placeholder:font-semibold font-semibold placeholder:text-[#333333] text-[#333333]"
+        className="w-full text-lg rounded my-4 focus:outline-none overflow-hidden resize-none p-2 border-2 border-[#333333] dark:border-[#f5f5f5] placeholder:font-semibold font-semibold placeholder:text-[#333333] dark:placeholder:text-[#f5f5f5] text-[#333333] dark:text-[#f5f5f5] bg-transparent"
       />
       <Editor
         plugins={[
@@ -134,9 +139,19 @@ export default function ProjectForm({ project }: ProjectFormProps) {
       />
       <button
         type="submit"
-        className="bg-[#333333] text-white rounded px-4 py-2"
+        className="bg-[#333333] dark:bg-[#f5f5f5] text-white dark:text-[#333333] rounded px-4 py-2 w-full sm:w-auto"
       >
-        {project ? 'Atualizar projeto' : 'Criar projeto'}
+        {loading ? (
+          <ClipLoader
+            color={loading ? '#fff' : '#333333'}
+            loading={loading}
+            size={25}
+          />
+        ) : project ? (
+          'Atualizar projeto'
+        ) : (
+          'Criar projeto'
+        )}
       </button>
     </form>
   )
