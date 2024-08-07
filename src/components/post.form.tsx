@@ -136,20 +136,22 @@ export default function PostForm({ tags }: PostFormProps) {
           multiValueLabel: (provided) => ({
             ...provided,
             color: '#f5f5f5',
+            backgroundColor: '#333333',
           }),
           multiValueRemove: (provided) => ({
             ...provided,
             color: '#f5f5f5',
+            backgroundColor: '#333333',
           }),
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           option: (provided, state) => ({
             ...provided,
-            backgroundColor: 'transparent',
+            backgroundColor: '#333333',
             color: '#333333',
           }),
           menu: (provided) => ({
             ...provided,
-            backgroundColor: 'transparent',
+            backgroundColor: '#333333',
             color: '#333333',
           }),
         }}
