@@ -1,3 +1,4 @@
+'use client'
 import { useState } from 'react'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import { storage } from '@/lib/firebase'
@@ -45,9 +46,9 @@ export default function ImageUploader({
 
   return (
     <div className="flex flex-col items-start">
-      <label className="flex flex-col items-center justify-start p-4 border border-dashed border-[#333333] rounded cursor-pointer">
-        <UploadCloud className="w-10 h-10 text-[#333333]" />
-        <span className="mt-2 text-sm text-[#333333]">
+      <label className="flex flex-col items-center justify-start p-4 border border-dashed border-zinc-800 dark:border-zinc-200 rounded cursor-pointer bg-zinc-200 dark:bg-zinc-800">
+        <UploadCloud className="w-10 h-10 text-zinc-800 dark:text-zinc-200" />
+        <span className="mt-2 text-sm text-zinc-800 dark:text-zinc-200">
           Clique para fazer upload
         </span>
         <input
@@ -62,7 +63,7 @@ export default function ImageUploader({
       </label>
       {uploading && (
         <div className="flex items-center justify-center">
-          <Loader2 className="w-10 h-10 text-[#333333] mt-4 animate-spin" />
+          <Loader2 className="w-10 h-10 text-zinc-800 dark:text-zinc-200 mt-4 animate-spin" />
         </div>
       )}
       {imageUrl && (
