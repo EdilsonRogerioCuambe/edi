@@ -53,19 +53,19 @@ export function DataTagTable<TData, TValue>({
   })
 
   return (
-    <div className="text-[#333333] my-5 border-2 p-4 border-[#333333] rounded-lg">
+    <div className="text-[#333333] dark:text-[#f5f5f5] my-5 border-2 p-4 border-[#333333] dark:border-[#f5f5f5] rounded-lg">
       <div className="flex items-center py-4 justify-between gap-x-2">
         <Input
-          placeholder='Pesquisar blog por "nome"'
+          placeholder='Pesquisar tag por "nome"'
           value={(table.getColumn('title')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
             table.getColumn('title')?.setFilterValue(event.target.value)
           }
-          className="max-w-sm w-full"
+          className="max-w-sm w-full bg-white dark:bg-zinc-900"
         />
         <Link
           href="/admin/tags/create"
-          className="bg-[#333333] text-white px-4 py-2 rounded-md gap-x-2 flex items-center hover:bg-[#444444] transition-all duration-300 ease-in-out"
+          className="bg-[#333333] dark:bg-[#f5f5f5] text-white dark:text-[#333333] px-4 py-2 rounded-md gap-x-2 flex items-center hover:bg-[#444444] dark:hover:bg-[#e5e5e5] transition-all duration-300 ease-in-out"
         >
           <PlusCircle className="w-6 h-6" />
           Adicionar Tag

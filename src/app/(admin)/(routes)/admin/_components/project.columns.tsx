@@ -1,5 +1,5 @@
 'use client'
-import { Post } from '@prisma/client'
+import { Project } from '@prisma/client'
 import {
   Image as LucidImageIcon,
   ArrowUpDown,
@@ -15,7 +15,7 @@ import toast from 'react-hot-toast'
 
 import { cn } from '@/lib/utils'
 
-export const blogColumns: ColumnDef<Post>[] = [
+export const projectColumns: ColumnDef<Project>[] = [
   {
     accessorKey: 'image',
     header: 'Imagem',
@@ -34,7 +34,7 @@ export const blogColumns: ColumnDef<Post>[] = [
                 className="rounded-md"
               />
             ) : (
-              <LucidImageIcon className="w-10 h-10 rounded-md" />
+              <LucidImageIcon className="w-10 h-10 rounded-md text-[#333333] dark:text-[#f5f5f5]" />
             )}
           </div>
         </div>
@@ -48,12 +48,18 @@ export const blogColumns: ColumnDef<Post>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="text-[#333333] dark:text-[#f5f5f5]"
         >
           Título
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
     },
+    cell: ({ row }) => (
+      <span className="text-[#333333] dark:text-[#f5f5f5]">
+        {row.original.title}
+      </span>
+    ),
   },
   {
     accessorKey: 'createdAt',
@@ -62,6 +68,7 @@ export const blogColumns: ColumnDef<Post>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="text-[#333333] dark:text-[#f5f5f5]"
         >
           Publicado em
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -104,7 +111,7 @@ export const blogColumns: ColumnDef<Post>[] = [
 
       const handleDelete = async () => {
         try {
-          await axios.delete(`/api/admin/blog/${slug}`)
+          await axios.delete(`/api/admin/project/${slug}`)
           toast.success('Post deletado com sucesso')
           window.location.reload()
         } catch (error) {
@@ -115,7 +122,7 @@ export const blogColumns: ColumnDef<Post>[] = [
 
       return (
         <div className="flex items-center space-x-2">
-          <Link href={`/admin/blog/${slug}`}>
+          <Link href={`/admin/project/${slug}`}>
             <Pencil className="w-5 h-5 text-[#333333] dark:text-[#f5f5f5]" />
           </Link>
           <Button

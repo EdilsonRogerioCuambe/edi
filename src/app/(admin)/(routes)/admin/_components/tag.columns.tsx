@@ -13,6 +13,11 @@ export const tagColumns: ColumnDef<Tag>[] = [
   {
     accessorKey: 'id',
     header: 'ID',
+    cell: ({ row }) => (
+      <span className="text-[#333333] dark:text-[#f5f5f5]">
+        {row.original.id}
+      </span>
+    ),
   },
   {
     accessorKey: 'name',
@@ -21,12 +26,18 @@ export const tagColumns: ColumnDef<Tag>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="text-[#333333] dark:text-[#f5f5f5]"
         >
           Título
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
     },
+    cell: ({ row }) => (
+      <span className="text-[#333333] dark:text-[#f5f5f5]">
+        {row.original.name}
+      </span>
+    ),
   },
   {
     accessorKey: 'published',
@@ -70,6 +81,7 @@ export const tagColumns: ColumnDef<Tag>[] = [
               variant="ghost"
               title="Editar"
               onClick={() => console.log('Edit', id)}
+              className="text-[#333333] dark:text-[#f5f5f5]"
             >
               <Pencil className="w-5 h-5" />
             </Button>
