@@ -1,3 +1,4 @@
+'use client'
 import type { Metadata } from 'next'
 import Markdown from '@/components/markdown'
 import { useState, useEffect } from 'react'

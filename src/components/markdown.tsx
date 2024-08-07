@@ -42,7 +42,7 @@ export default function Markdown({ content }: MarkdownProps) {
                   <button
                     type="button"
                     title="Copiar"
-                    className="absolute top-0 right-0 bg-[#121214] dark:bg-[#e5e5e5] items-center rounded-lg p-2"
+                    className="absolute top-0 right-0 bg-[#121214] dark:bg-[#f5f5f5] items-center rounded-lg p-2"
                     aria-label="Copy"
                   >
                     {copied ? (
