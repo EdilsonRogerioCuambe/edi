@@ -178,7 +178,6 @@ export default function EditPostForm({ post, tags }: EditPostFormProps) {
         onChange={handleContentChange}
         placeholder="Escreva algo..."
         value={content}
-        className="dark:text-[#f5f5f5]"
       />
       <button
         type="submit"
