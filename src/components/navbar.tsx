@@ -131,11 +131,11 @@ export default function Navbar() {
               onClick={() => setOpen(!open)}
               className="p-2"
             >
-              <Menu size={24} />
+              <Menu size={24} className="text-[#333333] dark:text-[#f5f5f5]" />
             </button>
             <button
               onClick={toggleTheme}
-              className={`p-2 ml-4 border-2 border-[#333333] text-[#333333] dark:border-[#f5f5f5] dark:text-[#f5f5f5] bg-white dark:bg-zinc-800 rounded transition-all duration-300 ease-in-out hover:bg-[#333333] dark:hover:bg-[#f5f5f5] hover:text-[#f5f5f5] dark:hover:text-[#333333]`}
+              className={`p-2 ml-4 border-none text-[#333333] dark:text-[#f5f5f5] bg-white dark:bg-zinc-800 rounded transition-all duration-300 ease-in-out hover:bg-[#333333] dark:hover:bg-[#f5f5f5] hover:text-[#f5f5f5] dark:hover:text-[#333333]`}
             >
               {theme === 'light' ? <Moon size={24} /> : <Sun size={24} />}
             </button>
