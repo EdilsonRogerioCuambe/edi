@@ -116,13 +116,13 @@ export default function Navbar() {
                 <Search size={20} />
               </Button>
             </form>
-            <SignInButton />
             <button
               onClick={toggleTheme}
               className="p-2 ml-4 border-none text-[#333333] dark:text-[#f5f5f5] bg-white dark:bg-zinc-800 rounded transition-all duration-300 ease-in-out hover:bg-[#333333] dark:hover:bg-[#f5f5f5] hover:text-[#f5f5f5] dark:hover:text-[#333333]"
             >
               {theme === 'light' ? <Moon size={24} /> : <Sun size={24} />}
             </button>
+            <SignInButton />
           </div>
           <div className="md:hidden flex items-center">
             <button
