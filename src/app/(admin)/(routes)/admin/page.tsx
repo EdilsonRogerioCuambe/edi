@@ -7,9 +7,15 @@ import { DataProjectTable } from './_components/project.data.table'
 import { projectColumns } from './_components/project.columns'
 
 export default async function Page() {
-  const posts = await prisma.post.findMany()
-  const tags = await prisma.tag.findMany()
-  const projects = await prisma.project.findMany()
+  const posts = await prisma.post.findMany({
+    orderBy: { createdAt: 'desc' },
+  })
+  const tags = await prisma.tag.findMany({
+    orderBy: { name: 'asc' },
+  })
+  const projects = await prisma.project.findMany({
+    orderBy: { createdAt: 'desc' },
+  })
 
   return (
     <div>
