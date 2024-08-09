@@ -183,10 +183,8 @@ export default function EditPostForm({ post, tags }: EditPostFormProps) {
 
   return (
     <>
-      <div className="sticky z-10 mb-4 dark:bg-yellow-400 text-zinc-800 rounded-lg p-4 flex justify-between items-center">
-        <span className="text-lg font-semibold">
-          {isPublished ? 'Arquivar' : 'Publicar'} Blog
-        </span>
+      <div className="mb-4 dark:bg-yellow-400 text-zinc-800 rounded-lg p-4 flex justify-between items-center">
+        <span>{isPublished ? 'Arquivar' : 'Publicar'} Blog</span>
         <button
           onClick={handlePublishToggle}
           className={`px-4 py-2 rounded text-white ${
