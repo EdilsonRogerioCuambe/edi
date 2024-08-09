@@ -164,7 +164,7 @@ export default function PostForm({ tags }: PostFormProps) {
         placeholder="Descrição curta"
         value={shortDesc}
         onChange={(e) => setShortDesc(e.target.value)}
-        maxLength={200}
+        maxLength={550}
         rows={10}
         className="placeholder:text-base md:placeholder:text-lg border-2 border-gray-300 dark:border-gray-600 font-semibold placeholder:text-[#333333] dark:placeholder:text-[#f5f5f5] text-[#333333] dark:text-[#f5f5f5] w-full text-base md:text-lg rounded my-4 focus:outline-none overflow-hidden resize-none p-2 bg-transparent"
       />
