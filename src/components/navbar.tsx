@@ -225,6 +225,7 @@ export default function Navbar() {
                     <Link
                       href={`/blog/${blog.slug}`}
                       className="text-[#333333] dark:text-[#f5f5f5] hover:underline"
+                      onClick={closeModal}
                     >
                       {blog.title}
                     </Link>
