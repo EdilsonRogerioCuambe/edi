@@ -35,7 +35,8 @@ export async function PATCH(
 ) {
   try {
     const { slug } = params
-    const { title, content, shortDesc, image, tags } = await request.json()
+    const { title, content, shortDesc, image, tags, published } =
+      await request.json()
 
     const post = await prisma.post.update({
       where: { slug },
@@ -44,6 +45,7 @@ export async function PATCH(
         content,
         shortDesc,
         image,
+        published,
         tags: {
           set: tags.map((tagId: string) => ({ id: tagId })),
         },
