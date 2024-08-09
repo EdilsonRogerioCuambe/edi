@@ -21,9 +21,17 @@ import makeAnimated from 'react-select/animated'
 import { ClipLoader } from 'react-spinners'
 import { Button } from './ui/button'
 import { useTheme } from '@/lib/theme.context'
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+import { storage } from '@/lib/firebase'
 
 interface PostFormProps {
   tags: Tag[]
+}
+
+interface UploadedImage {
+  url: string
+  title: string
+  alt: string
 }
 
 export default function PostForm({ tags }: PostFormProps) {
@@ -84,6 +92,60 @@ export default function PostForm({ tags }: PostFormProps) {
     id: tag.id,
     name: tag.name,
   }))
+
+  const insertTextAtCursor = (text: string) => {
+    const textarea = textareaRef.current
+    if (textarea) {
+      const start = textarea.selectionStart
+      const end = textarea.selectionEnd
+      const newText =
+        textarea.value.substring(0, start) +
+        text +
+        textarea.value.substring(end)
+      setContent(newText)
+      textarea.focus()
+      textarea.setSelectionRange(start + text.length, start + text.length)
+    }
+  }
+
+  const handleImageUpload = async (
+    files: File[],
+  ): Promise<Pick<UploadedImage, 'url' | 'title' | 'alt'>[]> => {
+    const uploadedImages: Pick<UploadedImage, 'url' | 'title' | 'alt'>[] = []
+
+    for (const file of files) {
+      const storageRef = ref(storage, `posts/${file.name}`)
+      const uploadTask = uploadBytesResumable(storageRef, file)
+
+      const url = await new Promise<string>((resolve, reject) => {
+        uploadTask.on(
+          'state_changed',
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            console.log('Upload is ' + progress + '% done')
+          },
+          (error) => {
+            console.error('Upload failed', error)
+            reject(error)
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then(resolve).catch(reject)
+          },
+        )
+      })
+
+      insertTextAtCursor(`![alt text](${url})`)
+
+      uploadedImages.push({
+        url,
+        title: file.name,
+        alt: file.name,
+      })
+    }
+
+    return uploadedImages
+  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -173,6 +235,7 @@ export default function PostForm({ tags }: PostFormProps) {
           math(),
         ]}
         key="editor"
+        uploadImages={handleImageUpload}
         onChange={handleContentChange}
         placeholder="Escreva algo..."
         value={content}

@@ -20,10 +20,18 @@ import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
 import { ClipLoader } from 'react-spinners'
 import { useTheme } from '@/lib/theme.context'
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
+import { storage } from '@/lib/firebase'
 
 interface EditPostFormProps {
   post: Post & { tags: Tag[] }
   tags: Tag[]
+}
+
+interface UploadedImage {
+  url: string
+  title: string
+  alt: string
 }
 
 export default function EditPostForm({ post, tags }: EditPostFormProps) {
@@ -79,6 +87,60 @@ export default function EditPostForm({ post, tags }: EditPostFormProps) {
     } finally {
       setLoading(false)
     }
+  }
+
+  const insertTextAtCursor = (text: string) => {
+    const textarea = textareaRef.current
+    if (textarea) {
+      const start = textarea.selectionStart
+      const end = textarea.selectionEnd
+      const newText =
+        textarea.value.substring(0, start) +
+        text +
+        textarea.value.substring(end)
+      setContent(newText)
+      textarea.focus()
+      textarea.setSelectionRange(start + text.length, start + text.length)
+    }
+  }
+
+  const handleImageUpload = async (
+    files: File[],
+  ): Promise<Pick<UploadedImage, 'url' | 'title' | 'alt'>[]> => {
+    const uploadedImages: Pick<UploadedImage, 'url' | 'title' | 'alt'>[] = []
+
+    for (const file of files) {
+      const storageRef = ref(storage, `posts/${file.name}`)
+      const uploadTask = uploadBytesResumable(storageRef, file)
+
+      const url = await new Promise<string>((resolve, reject) => {
+        uploadTask.on(
+          'state_changed',
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            console.log('Upload is ' + progress + '% done')
+          },
+          (error) => {
+            console.error('Upload failed', error)
+            reject(error)
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then(resolve).catch(reject)
+          },
+        )
+      })
+
+      insertTextAtCursor(`![alt text](${url})`)
+
+      uploadedImages.push({
+        url,
+        title: file.name,
+        alt: file.name,
+      })
+    }
+
+    return uploadedImages
   }
 
   useEffect(() => {
@@ -174,6 +236,7 @@ export default function EditPostForm({ post, tags }: EditPostFormProps) {
           highlight(),
           math(),
         ]}
+        uploadImages={handleImageUpload}
         key="editor"
         onChange={handleContentChange}
         placeholder="Escreva algo..."
