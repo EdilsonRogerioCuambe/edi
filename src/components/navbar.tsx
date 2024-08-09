@@ -184,6 +184,7 @@ export default function Navbar() {
               </Button>
             </form>
             <button
+              type="button"
               onClick={toggleTheme}
               className="p-2 ml-4 border-none text-[#333333] dark:text-[#f5f5f5] bg-white dark:bg-zinc-800 rounded transition-all duration-300 ease-in-out hover:bg-[#333333] dark:hover:bg-[#f5f5f5] hover:text-[#f5f5f5] dark:hover:text-[#333333]"
             >
@@ -200,7 +201,7 @@ export default function Navbar() {
           exit={{ opacity: 0, y: -50 }}
           className="fixed inset-0 z-20 flex items-center justify-center bg-zinc-950 bg-opacity-50"
         >
-          <div className="bg-white dark:bg-zinc-800 rounded-lg p-6 w-11/12 md:w-1/2 lg:w-1/3">
+          <div className="bg-white dark:bg-zinc-800 rounded-lg p-6 w-11/12 md:w-1/2 lg:w-1/3 max-h-[80vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold">Resultados da Pesquisa</h2>
               <Button
