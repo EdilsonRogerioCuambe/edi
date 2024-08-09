@@ -10,7 +10,7 @@ export default function GitHubContributions() {
       </h2>
       <motion.div
         whileHover={{ scale: 1.02 }}
-        className="bg-[#f5f5f5] dark:bg-zinc-700 p-6 rounded-lg max-w-5xl mx-auto"
+        className="bg-[#f5f5f5] dark:bg-zinc-800 p-6 rounded-lg max-w-5xl mx-auto"
       >
         <GitHubCalendar
           username="EdilsonRogerioCuambe"

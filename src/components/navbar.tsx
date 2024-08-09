@@ -146,7 +146,7 @@ export default function Navbar() {
         </div>
         {/* Menu dropdown para dispositivos pequenos */}
         {open && (
-          <div className="md:hidden flex flex-col space-y-2 mt-2">
+          <div className="md:hidden flex flex-col h-screen justify-center space-y-2 items-center bg-white dark:bg-zinc-800 rounded-lg p-4 absolute inset-x-0 top-20">
             <Link
               href="/"
               className={`p-2 ${pathname === '/' ? 'border-l-4 border-[#333333] dark:border-[#f5f5f5]' : ''}`}
