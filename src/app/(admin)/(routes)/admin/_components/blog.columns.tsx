@@ -13,8 +13,6 @@ import Link from 'next/link'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 
-import { cn } from '@/lib/utils'
-
 export const blogColumns: ColumnDef<Post>[] = [
   {
     accessorKey: 'image',
@@ -93,10 +91,9 @@ export const blogColumns: ColumnDef<Post>[] = [
 
       return (
         <span
-          className={cn(
-            'px-2 py-1 rounded-full text-xs',
-            published ? 'bg-green-500 text-white' : 'bg-red-500 text-white',
-          )}
+          className={`px-2 py-1 rounded-full text-xs ${
+            published ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+          }`}
         >
           {published ? 'Publicado' : 'Rascunho'}
         </span>
