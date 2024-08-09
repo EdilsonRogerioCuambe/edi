@@ -82,6 +82,7 @@ export default function Navbar() {
               EDILSON
             </Link>
           </div>
+          {/* Menu para dispositivos grandes */}
           <div className="md:flex md:space-x-4 md:items-center md:justify-center hidden">
             <Link
               href="/"
@@ -124,6 +125,7 @@ export default function Navbar() {
             </button>
             <SignInButton />
           </div>
+          {/* Botão de abrir menu em dispositivos pequenos */}
           <div className="md:hidden flex items-center">
             <button
               type="button"
@@ -131,10 +133,65 @@ export default function Navbar() {
               onClick={() => setOpen(!open)}
               className="p-2"
             >
-              <Menu size={24} className="text-[#333333] dark:text-[#f5f5f5]" />
+              {open ? (
+                <X size={24} className="text-[#333333] dark:text-[#f5f5f5]" />
+              ) : (
+                <Menu
+                  size={24}
+                  className="text-[#333333] dark:text-[#f5f5f5]"
+                />
+              )}
             </button>
           </div>
         </div>
+        {/* Menu dropdown para dispositivos pequenos */}
+        {open && (
+          <div className="md:hidden flex flex-col space-y-2 mt-2">
+            <Link
+              href="/"
+              className={`p-2 ${pathname === '/' ? 'border-l-4 border-[#333333] dark:border-[#f5f5f5]' : ''}`}
+              onClick={() => setOpen(false)}
+            >
+              Home
+            </Link>
+            <Link
+              href="/blog"
+              className={`p-2 ${pathname === '/blog' ? 'border-l-4 border-[#333333] dark:border-[#f5f5f5]' : ''}`}
+              onClick={() => setOpen(false)}
+            >
+              Blog
+            </Link>
+            <Link
+              href="/projects"
+              className={`p-2 ${pathname === '/projects' ? 'border-l-4 border-[#333333] dark:border-[#f5f5f5]' : ''}`}
+              onClick={() => setOpen(false)}
+            >
+              Projetos
+            </Link>
+            <form onSubmit={handleSearch} className="flex items-center p-2">
+              <Input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Pesquisar blogs"
+                className="p-2 border rounded w-full"
+              />
+              <Button
+                type="submit"
+                className="p-2 ml-2 border-none text-[#333333] dark:text-[#f5f5f5] bg-white dark:bg-zinc-800 rounded transition-all duration-300 ease-in-out hover:bg-[#333333] dark:hover:bg-[#f5f5f5] hover:text-[#f5f5f5] dark:hover:text-[#333333]"
+              >
+                <Search size={20} />
+              </Button>
+            </form>
+            <button
+              onClick={toggleTheme}
+              className="p-2 ml-4 border-none text-[#333333] dark:text-[#f5f5f5] bg-white dark:bg-zinc-800 rounded transition-all duration-300 ease-in-out hover:bg-[#333333] dark:hover:bg-[#f5f5f5] hover:text-[#f5f5f5] dark:hover:text-[#333333]"
+            >
+              {theme === 'light' ? <Moon size={24} /> : <Sun size={24} />}
+            </button>
+            <SignInButton />
+          </div>
+        )}
       </div>
       {isModalOpen && (
         <motion.div
