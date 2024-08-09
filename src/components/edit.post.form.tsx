@@ -173,9 +173,9 @@ export default function EditPostForm({ post, tags }: EditPostFormProps) {
 
   return (
     <>
-      <div className="sticky top-0 z-10 mb-4 dark:bg-yellow-400 rounded-lg p-4 flex justify-between items-center">
+      <div className="sticky top-0 z-10 mb-4 dark:bg-yellow-400 text-zinc-800 rounded-lg p-4 flex justify-between items-center">
         <span className="text-lg font-semibold">
-          {isPublished ? 'Publicar' : 'Arquivar'} Post
+          {isPublished ? 'Arquivar' : 'Publicar'} Blog
         </span>
         <button
           onClick={handlePublishToggle}
