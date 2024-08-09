@@ -65,8 +65,18 @@ export default function EditPostForm({ post, tags }: EditPostFormProps) {
 
   const handlePublishToggle = async () => {
     try {
+      if (!title || !content || !shortDesc || !uploadedImageUrl) {
+        toast.error('Preencha todos os campos')
+        return
+      }
       setLoading(true)
       const updatedPost = {
+        title,
+        content,
+        shortDesc,
+        image: uploadedImageUrl,
+        tags: selectedTags.map((tag) => tag.id),
+        authorId: session?.user?.id,
         published: !isPublished,
       }
       await axios.patch(`/api/admin/blog/${post.slug}`, updatedPost)
