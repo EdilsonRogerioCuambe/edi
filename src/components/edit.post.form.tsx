@@ -22,6 +22,7 @@ import { ClipLoader } from 'react-spinners'
 import { useTheme } from '@/lib/theme.context'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import { storage } from '@/lib/firebase'
+import { Button } from './ui/button'
 
 interface EditPostFormProps {
   post: Post & { tags: Tag[] }
@@ -185,14 +186,14 @@ export default function EditPostForm({ post, tags }: EditPostFormProps) {
     <>
       <div className="mb-4 dark:bg-yellow-400 text-zinc-800 rounded-lg p-4 flex justify-between items-center">
         <span>{isPublished ? 'Arquivar' : 'Publicar'} Blog</span>
-        <button
+        <Button
           onClick={handlePublishToggle}
           className={`px-4 py-2 rounded text-white ${
             isPublished ? 'bg-red-500' : 'bg-green-500'
           }`}
         >
           {isPublished ? 'Arquivar' : 'Publicar'}
-        </button>
+        </Button>
       </div>
       <form onSubmit={handleSubmit} className="space-y-4">
         <ImageUploader

@@ -21,6 +21,7 @@ import { ClipLoader } from 'react-spinners'
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Nome muito curto' }).max(255),
+  published: z.boolean(),
 })
 
 export default function Page() {
@@ -32,6 +33,7 @@ export default function Page() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: tag?.name || '',
+      published: tag?.published || false,
     },
   })
 
@@ -42,7 +44,10 @@ export default function Page() {
       try {
         const response = await axios.get(`/api/admin/tag/${id}`)
         setTag(response.data)
-        form.reset({ name: response.data.name })
+        form.reset({
+          name: response.data.name,
+          published: response.data.published,
+        })
       } catch (error) {
         console.error(error)
         toast.error('Erro ao carregar tag')
@@ -64,9 +69,40 @@ export default function Page() {
     }
   }
 
+  const handlePublishToggle = async (published: boolean) => {
+    try {
+      await axios.patch(`/api/admin/tag/${id}`, { published })
+      setTag((prev) => (prev ? { ...prev, published } : prev))
+      toast.success(
+        `Tag ${published ? 'publicada' : 'despublicada'} com sucesso`,
+      )
+    } catch (error) {
+      console.error(error)
+      toast.error('Erro ao atualizar o estado da tag')
+    }
+  }
+
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="border-2 border-zinc-800 dark:border-[#f5f5f5] rounded-lg p-8 w-full max-w-md bg-white dark:bg-zinc-800 text-zinc-800 dark:text-[#f5f5f5]">
+        <div className="flex justify-end mb-4">
+          {tag?.published ? (
+            <Button
+              className="mr-2 bg-yellow-500 text-white hover:bg-yellow-600"
+              onClick={() => handlePublishToggle(false)}
+            >
+              Arquivar
+            </Button>
+          ) : (
+            <Button
+              className="mr-2 bg-green-500 text-white hover:bg-green-600"
+              onClick={() => handlePublishToggle(true)}
+            >
+              Publicar
+            </Button>
+          )}
+        </div>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
